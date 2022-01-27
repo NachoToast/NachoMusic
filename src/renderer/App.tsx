@@ -9,6 +9,7 @@ import Title from './components/Title/Title';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import mainSlice from './redux/slices/main.slice';
+import './App.css';
 
 let theme = createTheme({
     palette: {

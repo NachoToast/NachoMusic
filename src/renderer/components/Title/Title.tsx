@@ -16,6 +16,10 @@ const Title = () => {
         }
     }, [fade]);
 
+    useEffect(() => {
+        console.log(window.api);
+    }, []);
+
     return fade < 4 ? (
         <Grow in={fade < 3}>
             <Typography variant="h1" textAlign="center" sx={{ pt: '3rem' }}>

@@ -1,6 +1,6 @@
 # NachoMusic
 
-A simple music downloading and streaming application, NachoMusic aims to be an alternative to desktop Spotify.
+A simple and lightweight music streaming application.
 
 <details>
 

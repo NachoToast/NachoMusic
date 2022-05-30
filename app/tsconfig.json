@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "ES5",
+        "module": "ES6",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "moduleResolution": "node",
+        "strict": true,
+        "alwaysStrict": true,
+        "types": ["node"],
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "outDir": "build"
+    },
+    "include": ["source/**/*"]
+}

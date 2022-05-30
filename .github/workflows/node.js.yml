@@ -22,6 +22,8 @@ jobs:
               with:
                   node-version: ${{ matrix.node-version }}
                   cache: 'yarn'
+            - name: Install Dependencies
+              run: yarn install --frozen-lockfile
             - name: Typecheck
               run: yarn typecheck:app
             - name: Lint

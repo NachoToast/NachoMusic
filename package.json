@@ -7,10 +7,15 @@
     "private": true,
     "scripts": {
         "build:app": "webpack --config app/webpack.config.js --mode production",
+        "build:extensions": "node extensions/source/buildAll.js",
         "dev:app": "nodemon --config app/nodemon.json",
+        "dev:extensions": "nodemon --config extensions/source/nodemon.json",
         "typecheck:app": "tsc -p app/tsconfig.json --noEmit",
+        "typecheck:extensions": "tsc -p extensions/source/tsconfig.json --noEmit",
         "lint:app": "eslint \"app/source/**\" --ext .ts --max-warnings=0",
+        "lint:extensions": "eslint \"extensions/source/**/*.ts\" --ext .ts --max-warnings=0",
         "check-all:app": "yarn lint:app && yarn typecheck:app",
+        "check-all:extensions": "yarn lint:extensions && yarn typecheck:extensions",
         "start": "neu run"
     },
     "dependencies": {

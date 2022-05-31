@@ -4,5 +4,6 @@ bin/
 build/
 
 package-lock.json
+yarn-error.log
 
 neutralinojs.log

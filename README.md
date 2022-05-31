@@ -39,8 +39,9 @@ Everything after this can be done in a terminal:
 ```sh
 git clone https://github.com/NachoToast/NachoMusic.git
 cd NachoMusic
-yarn
-yarn build:app
+yarn install
+yarn install:extensions
+yarn build
 yarn build:extensions
 yarn update
 yarn start
@@ -60,23 +61,25 @@ npm run <scriptname>
 
 ```sh
 # Compiling and bundling using TSC and webpack
-yarn build:app
+yarn build
 yarn build:extensions
 
 # Linting using Eslint and Prettier
-yarn lint:app
+yarn lint
 yarn lint:extensions
 
 # Type checking using TSC
-yarn typecheck:app
+yarn typecheck
 yarn typecheck:extensions
 
 # Compiling with hot-reloading enabled
 yarn dev:app
-yarn dev:extensions
 
 # Installing Neutralino binaries
 yarn update
+
+# Installing extension dependencies
+yarn install:extensions
 ```
 
 For an ideal development environment, use one terminal for the `dev:app` or `dev:extensions` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).

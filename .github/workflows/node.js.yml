@@ -24,11 +24,14 @@ jobs:
                   cache: 'yarn'
             - name: Install Dependencies
               run: yarn install --frozen-lockfile
-            - name: Typecheck (App)
-              run: yarn typecheck:app
-            - name: Lint (App)
-              run: yarn lint:app
-            - name: Typecheck (Extensions)
+            - name: Typecheck
+              run: yarn typecheck
+            - name: Lint
+              run: yarn lint
+            - name: Install Extension Dependencies
+              run: yarn install:extensions
+            - name: Typecheck Extensions
               run: yarn typecheck:extensions
-            - name: Lint (Extensions)
+            - name: Lint Extensions
               run: yarn lint:extensions
+              

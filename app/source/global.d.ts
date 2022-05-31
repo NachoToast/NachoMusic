@@ -67,7 +67,7 @@ declare namespace Neutralino {
         function getConfig(): Promise<Record<string, unknown>>;
 
         /** Dispatches a new event to all app instances. */
-        function broadcast(eventName: string, data?: object): Promise<{ success: boolean }>;
+        function broadcast(eventName: string, data?: string): Promise<{ success: boolean }>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/clipboard API Reference} */
@@ -113,12 +113,12 @@ declare namespace Neutralino {
             serverOffline: null;
 
             // untested
-            clientConnect: number | unknown;
-            clientDisconnect: number | unknown;
-            appClientConnect: number | unknown;
-            appClientDisconnect: number | unknown;
-            extClientConnect: number | unknown;
-            extClientDisconnect: number | unknown;
+            clientConnect: number;
+            clientDisconnect: number;
+            appClientConnect: number;
+            appClientDisconnect: number;
+            extClientConnect: string;
+            extClientDisconnect: string;
 
             // extension identifier
             extensionReady: unknown;
@@ -126,23 +126,47 @@ declare namespace Neutralino {
             spawnedProcess: { action: 'stdOut' | 'stdErr' | 'exit'; data: string; id: number };
         }
 
-        /** Registers an event handler. */
+        /** Registers a native event handler. */
         function on<T extends keyof EventData>(
             eventType: T,
             handler: (data: CustomEvent<EventData[T]>) => void,
         ): Promise<{ success: boolean; message: string }>;
 
-        /** Unregisters an event handler. */
+        /** Registers a custom event handler. */
+        function on<T>(
+            eventType: string,
+            handler: (data: CustomEvent<T>) => void,
+        ): Promise<{ success: boolean; message: string }>;
+
+        /** Registers an unknown event handler. */
+        function on(
+            eventType: string,
+            handler: (data: CustomEvent<unknown>) => void,
+        ): Promise<{ success: boolean; message: string }>;
+
+        /** Unregisters a native event handler. */
         function off<T extends keyof EventData>(
             eventType: T,
             handler: (data: CustomEvent<EventData[T]>) => void,
         ): Promise<{ success: boolean; message: string }>;
 
+        /** Unregisters a custom native event handler. */
+        function off<T>(
+            eventType: string,
+            handler: (data: CustomEvent<T>) => void,
+        ): Promise<{ success: boolean; message: string }>;
+
+        /** Unregisters an unknown event handler. */
+        function off(
+            eventType: string,
+            handler: (data: CustomEvent<unknown>) => void,
+        ): Promise<{ success: boolean; message: string }>;
+
         /** Dispatches a new event to the current app instance. */
-        function dispatch(eventName: string, data?: object): Promise<void>;
+        function dispatch(eventName: string, data?: unknown): Promise<void>;
 
         /** Dispatches a new event to all clients (app and extension clients). */
-        function broadcast(eventName: string, data?: object): Promise<void>;
+        function broadcast(eventName: string, data?: unknown): Promise<void>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/extensions API Reference} */
@@ -153,7 +177,7 @@ declare namespace Neutralino {
          * If the targeted extension is not connected yet,
          * Neutralino client library will queue the function call and send whenever the extension comes online.
          */
-        function dispatch(identifier: string, eventName: string, data?: object): Promise<void>;
+        function dispatch(identifier: string, eventName: string, data?: unknown): Promise<void>;
 
         /**
          * Dispatches a new event to all connected extensions.
@@ -163,7 +187,7 @@ declare namespace Neutralino {
          *
          * Use `extensions.dispatch` to send messages even if the extension is not connected to the main process.
          */
-        function broadcast(eventName: string, data?: object): Promise<void>;
+        function broadcast(eventName: string, data?: unknown): Promise<void>;
 
         /**
          * Returns details about connected and loaded extensions.

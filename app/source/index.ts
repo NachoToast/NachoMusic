@@ -1,11 +1,9 @@
-import YouTubeSearch from './classes/YouTubeSearch';
-
-console.log(typeof Neutralino.app.exit);
+import ExtensionTest from './classes/ExtensionTest';
 
 function main() {
     Neutralino.init();
 
-    new YouTubeSearch();
+    (window as unknown as { extTest: ExtensionTest }).extTest = new ExtensionTest();
 }
 
 main();

@@ -46,7 +46,7 @@
     "extensions": [
         {
             "id": "js.neutralino.sample.my_nodejs_extension",
-            "command": "node extensions/build/test.js"
+            "command": "node extensions/testExtension"
         }
     ]
 }

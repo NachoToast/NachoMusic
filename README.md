@@ -1,4 +1,4 @@
-# NachoMusic
+# NachoMusic [![Node.js CI](https://github.com/NachoToast/NachoMusic/actions/workflows/node.js.yml/badge.svg)](https://github.com/NachoToast/NachoMusic/actions/workflows/node.js.yml)
 
 A simple and lightweight music streaming application.
 

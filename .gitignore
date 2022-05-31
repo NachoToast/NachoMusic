@@ -2,9 +2,10 @@ node_modules/
 package-lock.json
 
 .tmp/
+bin/
 
 neutralinojs.log
-app/build/bundle.js
+app/build/*.js
 
 extensions/build/
 extensions/source/*/webpack.config.js

@@ -28,38 +28,22 @@ _Not in production-ready stage yet._
 
 # Local Setup
 
-Follow these steps to set up a development environment:
+First make sure you have the following dependencies:
 
-1. Make sure you have [Node JS](https://nodejs.org/en/) v16 or higher installed.
-2. Clone this repository.
-3. Install dependencies using [yarn](https://yarnpkg.com/):
+-   [Node JS](https://nodejs.org/en/) v16 or higher. Anything below v16 will probably work but has not been tested.
 
-```sh
-yarn install
-```
+-   [Yarn](https://yarnpkg.com/), you can still use npm if necessary but some scripts will not work.
 
-You can also use npm if yarn is unavailable, but you won't be able to run the hot-reloading or checking scripts.
-
-4. Build the application and extensions:
+Everything after this can be done in a terminal:
 
 ```sh
-# yarn
+git clone https://github.com/NachoToast/NachoMusic.git
+cd NachoMusic
+yarn
 yarn build:app
 yarn build:extensions
-
-# npm
-npm run build:app
-npm run build:extensions
-```
-
-5. You can now run the app using:
-
-```sh
-# yarn
+yarn update
 yarn start
-
-# npm
-npm run start
 ```
 
 See [script reference](#script-reference) below for other options like hot-reloading, linting, and typechecking.
@@ -74,27 +58,25 @@ yarn <scriptname>
 npm run <scriptname>
 ```
 
--   build:app
-    -   Compiles app-related Typescript files into Javascript.
--   build:extensions
-    -   Compiles extension Typescript files into Javascript.
--   check-all:app
-    -   Calls linting and typechecking scripts on app files.
--   check-all:extensions
-    -   Calls linting and typechecking scripts on extension files.
--   dev:app
-    -   Compiles app-related Typescript files into Javascript with hot-reloading.
--   dev:extensions
-    -   Compiles extension Typescript files into Javascript with hot-reloading.
--   lint:app
-    -   Lints app-related files.
--   lint:extensions
-    -   Lints extension-related files.
--   start
-    -   Runs the app.
--   typecheck:app
-    -   Typechecks app-related files.
--   typecheck:extensions
-    -   Typechecks extension-related files.
+```sh
+# Compiling and bundling using TSC and webpack
+yarn build:app
+yarn build:extensions
 
-For an ideal development environment, use one terminal for the dev:app or dev:extensions script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (or their Mac equivalents).
+# Linting using Eslint and Prettier
+yarn lint:app
+yarn lint:extensions
+
+# Type checking using TSC
+yarn typecheck:app
+yarn typecheck:extensions
+
+# Compiling with hot-reloading enabled
+yarn dev:app
+yarn dev:extensions
+
+# Installing Neutralino binaries
+yarn update
+```
+
+For an ideal development environment, use one terminal for the `dev:app` or `dev:extensions` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).

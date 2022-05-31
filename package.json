@@ -14,23 +14,29 @@
         "typecheck:extensions": "tsc -p extensions/source/tsconfig.json --noEmit",
         "lint:app": "eslint \"app/source/**\" --ext .ts --max-warnings=0",
         "lint:extensions": "eslint \"extensions/source/**/*.ts\" --ext .ts --max-warnings=0",
-        "check-all:app": "yarn lint:app && yarn typecheck:app",
-        "check-all:extensions": "yarn lint:extensions && yarn typecheck:extensions",
-        "start": "neu run"
+        "start": "neu run",
+        "update": "neu update"
     },
     "dependencies": {
         "@neutralinojs/neu": "^9.3.1",
+        "@types/minimist": "^1.2.2",
         "@types/node": "^17.0.36",
+        "@types/uuid": "^8.3.4",
+        "@types/websocket": "^1.0.5",
         "@typescript-eslint/eslint-plugin": "^5.26.0",
         "@typescript-eslint/parser": "^5.26.0",
+        "chalk": "^5.0.1",
         "eslint": "^8.16.0",
         "eslint-config-prettier": "^8.5.0",
+        "minimist": "^1.2.6",
         "nodemon": "^2.0.16",
         "prettier": "^2.6.2",
         "ts-loader": "^9.3.0",
         "ts-node": "^10.8.0",
         "typescript": "^4.7.2",
+        "uuid": "^8.3.2",
         "webpack": "^5.72.1",
-        "webpack-cli": "^4.9.2"
+        "webpack-cli": "^4.9.2",
+        "websocket": "^1.0.34"
     }
 }

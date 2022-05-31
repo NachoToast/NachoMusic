@@ -1,5 +1,5 @@
 {
-    "applicationId": "nachotoast.nachomusic",
+    "applicationId": "js.nachotoast.nachomusic",
     "version": "1.0.0",
     "defaultMode": "window",
     "documentRoot": "/app/build/",
@@ -41,5 +41,12 @@
     "logging": {
         "enabled": true,
         "writeToLogFile": false
-    }
+    },
+    "enableExtensions": true,
+    "extensions": [
+        {
+            "id": "js.neutralino.sample.my_nodejs_extension",
+            "command": "node extensions/build/test.js"
+        }
+    ]
 }

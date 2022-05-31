@@ -82,4 +82,6 @@ yarn update
 yarn install:extensions
 ```
 
-For an ideal development environment, use one terminal for the `dev:app` or `dev:extensions` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).
+For an ideal app development environment, use one terminal for the `dev:app` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).
+
+For extension development, hot-reloading is not feasible since they rely on a websocket connection to the app. Because of this it's recommended to employ testing suites for extensions.

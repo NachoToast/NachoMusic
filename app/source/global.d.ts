@@ -47,7 +47,7 @@ declare namespace Neutralino {
          *
          * @param {number} exitCode - Process's exit code, default is 0 (success).
          */
-        function exit(exitCode: number): Promise<void>;
+        function exit(exitCode?: number): Promise<void>;
 
         /**
          * Kills the application process.

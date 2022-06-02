@@ -89,3 +89,13 @@ yarn package
 For an ideal app development environment, use one terminal for the `dev:app` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).
 
 For extension development, reloading the app is not feasible since extensions rely on a websocket connection to the it. Because of this it's recommended to employ testing suites for extensions.
+
+# Repository Structure
+
+-   app - Folder for the main app, effectively a webpage within a window. Split into 2 subdirectories:
+    -   build - Compiled Javascript files for app functionality, alongside HTML, CSS, and images.
+    -   src - Typescript files for app functionality.
+-   extensions - Folder for all extensions, these are processes that start when requested by the app. Split into 2 subdirectories:
+    -   build - Compiled Javascript files for all extensions.
+    -   src - Typescript files for all extensions.
+-   bin - Binary executable files for running Neutralinojs and (eventually) other processes.

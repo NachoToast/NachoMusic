@@ -1,4 +1,4 @@
-# NachoMusic [![Node.js CI](https://github.com/NachoToast/NachoMusic/actions/workflows/node.js.yml/badge.svg)](https://github.com/NachoToast/NachoMusic/actions/workflows/node.js.yml)
+# NachoMusic [![Node.js CI](https://github.com/NachoToast/NachoMusic/actions/workflows/node.js.yml/badge.svg)](https://github.com/NachoToast/NachoMusic/actions/workflows/node.js.yml)[![CodeQL](https://github.com/NachoToast/NachoMusic/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/NachoToast/NachoMusic/actions/workflows/codeql-analysis.yml)
 
 A simple and lightweight music streaming application.
 

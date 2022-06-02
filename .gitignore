@@ -8,6 +8,10 @@ dist/
 # Neutralinojs client (minified)
 neutralino.js
 
+# Compiled JS files
+app/build/bundle.js
+extensions/build
+
 # Neutralinojs related files
 .storage
 *.log

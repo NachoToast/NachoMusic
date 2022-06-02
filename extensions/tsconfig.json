@@ -10,8 +10,7 @@
         "types": ["node"],
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "build",
-        "rootDirs": ["src", "../helpers"]
+        "outDir": "build"
     },
     "include": ["src/**/*"]
 }

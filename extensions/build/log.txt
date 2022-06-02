@@ -1,0 +1,76 @@
+Attempting port 57605, WS ws://localhost:57605?extensionId=js.neutralino.sample.my_nodejs_extension
+connected to application!
+got message, data type: string
+unknown message{"data":"js.neutralino.sample.my_nodejs_extension","event":"extClientConnect"}
+got message, data type: string
+unknown message{"data":1,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":"js.neutralino.devtools","event":"extClientConnect"}
+got message, data type: string
+unknown message{"data":2,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":1,"event":"appClientConnect"}
+got message, data type: string
+unknown message{"data":3,"event":"clientConnect"}
+got message, data type: string
+message received is 3glc7lg4jqq
+got message, data type: string
+unknown message{"data":{"success":true},"id":"43a59aa2-dc24-40ab-9a23-edf108171a22","method":"app.broadcast"}
+connection has been closed
+Attempting port 58654, WS ws://localhost:58654?extensionId=js.neutralino.sample.my_nodejs_extension
+connected to application!
+got message, data type: string
+unknown message{"data":"js.neutralino.sample.my_nodejs_extension","event":"extClientConnect"}
+got message, data type: string
+unknown message{"data":1,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":"js.neutralino.devtools","event":"extClientConnect"}
+got message, data type: string
+unknown message{"data":2,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":1,"event":"appClientConnect"}
+got message, data type: string
+unknown message{"data":3,"event":"clientConnect"}
+connection has been closed
+Attempting port 59347, WS ws://localhost:59347?extensionId=js.neutralino.sample.my_nodejs_extension
+connected to application!
+got message, data type: string
+unknown message{"data":"js.neutralino.sample.my_nodejs_extension","event":"extClientConnect"}
+got message, data type: string
+unknown message{"data":1,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":"js.neutralino.devtools","event":"extClientConnect"}
+got message, data type: string
+unknown message{"data":2,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":1,"event":"appClientConnect"}
+got message, data type: string
+unknown message{"data":3,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":0,"event":"appClientDisconnect"}
+got message, data type: string
+unknown message{"data":2,"event":"clientDisconnect"}
+got message, data type: string
+unknown message{"data":1,"event":"appClientConnect"}
+got message, data type: string
+unknown message{"data":3,"event":"clientConnect"}
+got message, data type: string
+unknown message{"data":0,"event":"appClientDisconnect"}
+got message, data type: string
+unknown message{"data":2,"event":"clientDisconnect"}
+got message, data type: string
+unknown message{"data":1,"event":"appClientConnect"}
+got message, data type: string
+unknown message{"data":3,"event":"clientConnect"}
+got message, data type: string
+message received is 8uavyajlm27
+got message, data type: string
+unknown message{"data":{"success":true},"id":"a65e2534-648f-400b-816f-847699f09bad","method":"app.broadcast"}
+got message, data type: string
+message received is jxyezjspfg
+got message, data type: string
+unknown message{"data":{"success":true},"id":"b312dd75-4282-4fbb-a4a8-20d2021e916d","method":"app.broadcast"}
+got message, data type: string
+message received is 6bzwskx1jjw
+got message, data type: string
+unknown message{"data":{"success":true},"id":"0cac772c-8c96-4333-9af2-598728787b52","method":"app.broadcast"}

@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
-        "target": "ES5",
-        "module": "ES6",
+        "target": "ES2021",
+        "module": "CommonJS",
         "sourceMap": true,
         "noImplicitAny": true,
         "moduleResolution": "node",
@@ -10,7 +10,8 @@
         "types": ["node"],
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
-        "outDir": "build"
+        "outDir": "../../out/testExtension",
+        "rootDirs": ["src", "../../helpers"]
     },
     "include": ["src/**/*"]
 }

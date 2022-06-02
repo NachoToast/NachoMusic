@@ -72,16 +72,20 @@ yarn lint:extensions
 yarn typecheck
 yarn typecheck:extensions
 
-# Compiling with hot-reloading enabled
+# Compiling with hot-reloading
 yarn dev:app
+yarn dev:extensions
 
-# Installing Neutralino binaries
+# Updating Neutralinojs binaries and client
 yarn update
 
 # Installing extension dependencies
 yarn install:extensions
+
+# Packaging app for release
+yarn package
 ```
 
 For an ideal app development environment, use one terminal for the `dev:app` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).
 
-For extension development, hot-reloading is not feasible since they rely on a websocket connection to the app. Because of this it's recommended to employ testing suites for extensions.
+For extension development, reloading the app is not feasible since extensions rely on a websocket connection to the it. Because of this it's recommended to employ testing suites for extensions.

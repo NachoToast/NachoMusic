@@ -1,29 +1,32 @@
 {
     "name": "nachomusic",
     "version": "0.0.1",
+    "main": "index.js",
     "repository": "https://github.com/NachoToast/NachoMusic.git",
     "author": "NachoToast <32235595+NachoToast@users.noreply.github.com>",
     "license": "MIT",
     "private": true,
     "scripts": {
+        "install:extensions": "cd extensions && yarn",
         "build": "webpack --config app/webpack.config.js --mode production",
+        "build:extensions": "cd extensions && yarn build",
         "dev": "nodemon --config app/nodemon.json",
+        "dev:extensions": "nodemon --config extensions/nodemon.json",
         "typecheck": "tsc -p app/tsconfig.json --noEmit",
-        "lint": "eslint \"app/source/**\" --ext .ts --max-warnings=0",
-        "build:extensions": "node extensions/processAll.js build",
-        "typecheck:extensions": "node extensions/processAll.js typecheck",
-        "install:extensions": "node extensions/processAll.js install",
-        "lint:extensions": "eslint \"extensions/**/*.ts\" --ext .ts --max-warnings=0",
+        "typecheck:extensions": "cd extensions && yarn typecheck",
+        "lint": "eslint \"app/src/**\" --ext .ts --max-warnings=0",
+        "lint:extensions": "eslint \"extensions/src/**\" --ext .ts --max-warnings=0",
         "start": "neu run",
-        "update": "neu update"
+        "update": "neu update",
+        "package": "neu build"
     },
     "dependencies": {
         "@neutralinojs/neu": "^9.3.1"
     },
     "devDependencies": {
-        "@types/node": "^17.0.36",
-        "@typescript-eslint/eslint-plugin": "^5.26.0",
-        "@typescript-eslint/parser": "^5.26.0",
+        "@types/node": "^17.0.38",
+        "@typescript-eslint/eslint-plugin": "^5.27.0",
+        "@typescript-eslint/parser": "^5.27.0",
         "eslint": "^8.16.0",
         "eslint-config-prettier": "^8.5.0",
         "nodemon": "^2.0.16",

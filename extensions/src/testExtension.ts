@@ -2,7 +2,7 @@ import { appendFileSync } from 'fs';
 import { IMessageEvent, w3cwebsocket as websocket } from 'websocket';
 import { join } from 'path';
 import { v4 as uuid } from 'uuid';
-import getProcessArgs from '../../helpers/getProcessArgs';
+import getProcessArgs from './helpers/getProcessArgs';
 
 const { port, accessToken, extensionId } = getProcessArgs();
 
@@ -49,7 +49,7 @@ function onMessage(e: IMessageEvent) {
                         accessToken,
                         data: {
                             event: 'fromExtensionToApp',
-                            data: `Hey neu app, Node JS here - you sent me: ${data}`,
+                            data: `Hey neu app, Node JS 2 here - you sent me: ${data}`,
                         },
                     }),
                 );

@@ -1,12 +1,10 @@
 {
     "name": "test-extension",
     "version": "1.0.0",
-    "main": "build/testExtension/src/index.js",
     "license": "MIT",
     "scripts": {
         "build": "tsc",
         "typecheck": "tsc --noEmit",
-        "start": "node .",
         "lint": "eslint \"src/**\" --ext .ts --max-warnings=0",
         "dev": "nodemon src/index.ts",
         "check-all": "yarn lint && yarn typecheck"
@@ -25,6 +23,7 @@
         "eslint-config-prettier": "^8.5.0",
         "nodemon": "^2.0.16",
         "prettier": "^2.6.2",
+        "ts-loader": "^9.3.0",
         "ts-node": "^10.8.0",
         "typescript": "^4.7.2"
     },

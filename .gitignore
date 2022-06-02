@@ -2,6 +2,7 @@ node_modules/
 .tmp/
 bin/
 build/
+dist/
 
 package-lock.json
 yarn-error.log

@@ -18,7 +18,7 @@
         "lint:extensions": "eslint \"extensions/src/**\" --ext .ts --max-warnings=0",
         "start": "neu run",
         "update": "neu update",
-        "package": "neu build"
+        "package": "neu build && ts-node dist/NachoMusic/extensions/postPackage.ts"
     },
     "dependencies": {
         "@neutralinojs/neu": "^9.3.1"

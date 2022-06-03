@@ -13,8 +13,12 @@ class ExtensionTest {
             console.log(`Extension connected: ${detail}`);
         });
 
-        Neutralino.events.on('fromExtensionToApp', ({ detail }) => {
-            console.log(`Response: ${detail}`);
+        Neutralino.events.on('spawnedProcess', (proc) => {
+            console.log(proc.detail.action, proc.detail.data, proc.detail.id);
+        });
+
+        Neutralino.events.on('testEvent', (payload) => {
+            console.log(`Response: ${payload.detail}`);
         });
     }
 
@@ -24,7 +28,8 @@ class ExtensionTest {
         this._input.value ||= Math.random().toString(36).substring(2);
         console.log(`Calling extension with input: ${this._input.value}`);
 
-        await Neutralino.extensions.dispatch(this._extId, 'fromAppToExtension', this._input.value);
+        await Neutralino.extensions.dispatch(this._extId, 'testEvent', this._input.value);
+
         this._input.value = '';
         this._input.disabled = false;
     }

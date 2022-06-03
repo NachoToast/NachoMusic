@@ -1,4 +1,4 @@
-interface ProcessArgs {
+export interface ProcessArgs {
     /** Port of the Neutralinojs server. */
     port: number;
 
@@ -18,7 +18,7 @@ interface ProcessArgs {
  *
  * @throws Throws an error if arguments are missing.
  */
-export default function getProcessArgs(): ProcessArgs {
+export function getProcessArgs(): ProcessArgs {
     const rawPort = process.argv.find((e) => e.startsWith('--nl-port'));
     if (rawPort === undefined) throw new Error('Missing "--nl-port" argument');
 

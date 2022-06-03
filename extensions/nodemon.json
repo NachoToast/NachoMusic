@@ -1,5 +1,5 @@
 {
     "ext": "ts",
-    "watch": ["src/**"],
+    "watch": ["extensions/src/**"],
     "exec": "cd extensions && yarn build"
 }

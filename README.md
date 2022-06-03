@@ -99,3 +99,5 @@ For extension development, reloading the app is not feasible since extensions re
     -   build - Compiled Javascript files for all extensions.
     -   src - Typescript files for all extensions.
 -   bin - Binary executable files for running Neutralinojs and (eventually) other processes.
+-   shared - Contains declarations that can be utilised by both app and extensions.
+    -   messages.d.ts - Defines custom events and their handlers for inter-process websocket communication.

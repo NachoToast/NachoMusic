@@ -38,7 +38,7 @@
     "cli": {
         "binaryName": "NachoMusic",
         "resourcesPath": "/app/build/",
-        "extensionsPath": "/extensions/build/",
+        "extensionsPath": "/extensions/",
         "clientLibrary": "/app/build/neutralino.js",
         "binaryVersion": "4.4.0",
         "clientVersion": "3.3.0"

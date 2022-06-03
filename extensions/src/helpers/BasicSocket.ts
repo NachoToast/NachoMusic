@@ -9,6 +9,10 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
     private readonly _processArgs: ProcessArgs = getProcessArgs();
     private readonly _webSocket: W3CWebsocket;
 
+    public get id(): string {
+        return this._processArgs.extensionId;
+    }
+
     private get _url(): string {
         return `ws://localhost:${this._processArgs.port}?extensionId=${this._processArgs.extensionId}`;
     }
@@ -18,7 +22,7 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
 
         this._webSocket = new W3CWebsocket(this._url);
         this._webSocket.onclose = (e) => this.handleClose(e);
-        this._webSocket.onerror = () => this.handleError();
+        this._webSocket.onerror = (e) => this.handleError(e);
         this._webSocket.onmessage = (e) => this.handleMessage(e);
         this._webSocket.onopen = () => this.handleOpen();
     }
@@ -27,8 +31,15 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
         process.exit(e.code);
     }
 
-    private handleError(): void {
-        // TODO: error logging
+    public handleError({ message, name, stack }: Error, fromSend: boolean = false): void {
+        if (fromSend) {
+            // the error comes from a send message attempt,
+            // which means we can't log it
+            // since that would just generate more errors
+            return;
+        }
+
+        this.send('extensionError', { id: this.id, message, name, stack: stack ?? 'Unknown' });
     }
 
     private handleMessage({ data }: IMessageEvent): void {
@@ -55,26 +66,37 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
             // @ts-ignore
             this.emit(payload.event, payload.data);
         } catch (error) {
-            // TODO: error handling
+            this.handleError(
+                error instanceof Error
+                    ? error
+                    : new Error(`Unknown error occurred handling message: ${data.toString()}`),
+            );
         }
     }
 
     private handleOpen(): void {
-        // TODO: open logging
+        //
     }
 
     public send<T extends keyof CustomEvents>(event: T, ...data: Parameters<CustomEvents[T]['generalHandler']>): void {
-        const message: OutgoingMessage<T> = {
-            id: uuid(),
-            method: 'app.broadcast',
-            accessToken: this._processArgs.accessToken,
-            data: {
-                event,
-                data: data,
-            },
-        };
+        try {
+            const message: OutgoingMessage<T> = {
+                id: uuid(),
+                method: 'app.broadcast',
+                accessToken: this._processArgs.accessToken,
+                data: {
+                    event,
+                    data: data,
+                },
+            };
 
-        this._webSocket.send(JSON.stringify(message));
+            this._webSocket.send(JSON.stringify(message));
+        } catch (error) {
+            this.handleError(
+                error instanceof Error ? error : new Error(`Unknowng error occurred trying to send event ${event}`),
+                event === 'extensionError',
+            );
+        }
     }
 }
 

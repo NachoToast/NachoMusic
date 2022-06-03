@@ -1,5 +1,5 @@
 import { TypedEmitter } from 'tiny-typed-emitter';
-import getProcessArgs, { ProcessArgs } from './getProcessArgs';
+import { getProcessArgs, ProcessArgs } from './getProcessArgs';
 import { ICloseEvent, IMessageEvent, w3cwebsocket as W3CWebsocket } from 'websocket';
 import { v4 as uuid } from 'uuid';
 import { CustomEvents } from '../../../shared/messages';

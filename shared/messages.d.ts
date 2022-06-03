@@ -6,7 +6,11 @@
  */
 export interface CustomEvents {
     testEvent: {
-        appHandler: (message: CustomEvent<string>) => void;
+        appHandler: (message: CustomEvent<[string]>) => void;
         generalHandler: (message: string) => void;
+    };
+    extensionError: {
+        appHandler: (error: CustomEvent<[{ id: string; message: string; stack: string; name: string }]>) => void;
+        generalHandler: (error: { id: string; message: string; stack: string; name: string }) => void;
     };
 }

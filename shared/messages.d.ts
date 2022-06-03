@@ -13,4 +13,8 @@ export interface CustomEvents {
         appHandler: (error: CustomEvent<[{ id: string; message: string; stack: string; name: string }]>) => void;
         generalHandler: (error: { id: string; message: string; stack: string; name: string }) => void;
     };
+    extensionLog: {
+        appHandler: (log: CustomEvent<[{ id: string; message: unknown }]>) => void;
+        generalHandler: (log: { id: string; message: unknown }) => void;
+    };
 }

@@ -5,16 +5,23 @@ import { v4 as uuid } from 'uuid';
 import { CustomEvents } from '../../../shared/messages';
 import { ReceivedMessage, OutgoingMessage } from './BasicSocketMessages';
 
-class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents[K]['generalHandler'] }> {
+class BasicSocket extends TypedEmitter<
+    { [K in keyof CustomEvents]: CustomEvents[K]['generalHandler'] } & { ready: () => void }
+> {
     private readonly _processArgs: ProcessArgs = getProcessArgs();
     private readonly _webSocket: W3CWebsocket;
 
+    /** The extension ID of the connected websocket. */
     public get id(): string {
         return this._processArgs.extensionId;
     }
 
+    public get port(): number {
+        return this._processArgs.port;
+    }
+
     private get _url(): string {
-        return `ws://localhost:${this._processArgs.port}?extensionId=${this._processArgs.extensionId}`;
+        return `ws://localhost:${this.port}?extensionId=${this.id}`;
     }
 
     public constructor() {
@@ -25,12 +32,17 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
         this._webSocket.onerror = (e) => this.handleError(e);
         this._webSocket.onmessage = (e) => this.handleMessage(e);
         this._webSocket.onopen = () => this.handleOpen();
+
+        this.once('ready', () => {
+            this.log(`Connected on port ${this.port}`);
+        });
     }
 
     private handleClose(e: ICloseEvent): void {
         process.exit(e.code);
     }
 
+    /** Sends an error message to the main app instance. */
     public handleError({ message, name, stack }: Error, fromSend: boolean = false): void {
         if (fromSend) {
             // the error comes from a send message attempt,
@@ -61,6 +73,11 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
             return;
         }
 
+        if (payload.event === 'appClientConnect') {
+            this.emit('ready');
+            return;
+        }
+
         try {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -75,9 +92,11 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
     }
 
     private handleOpen(): void {
-        //
+        // currently we don't need to do anything once the websocket has opened,
+        // since communication can only start once the app is ready
     }
 
+    /** Sends a custom event payload to the main app instance. */
     public send<T extends keyof CustomEvents>(event: T, ...data: Parameters<CustomEvents[T]['generalHandler']>): void {
         try {
             const message: OutgoingMessage<T> = {
@@ -97,6 +116,11 @@ class BasicSocket extends TypedEmitter<{ [K in keyof CustomEvents]: CustomEvents
                 event === 'extensionError',
             );
         }
+    }
+
+    /** Sends an informative logging message to the main app instance. */
+    public log(message: unknown) {
+        this.send('extensionLog', { id: this.id, message });
     }
 }
 

@@ -15,6 +15,14 @@ class ExtensionLogger {
             }
         });
 
+        Neutralino.events.on('extensionLog', ({ detail }) => {
+            const { id, message } = detail[0];
+            if (this._tracking[id] !== undefined) {
+                console.log(`%c${id}`, 'color: gray');
+                console.log(message);
+            }
+        });
+
         if (verbose) this.addAllListeners();
     }
 
@@ -89,4 +97,4 @@ class ExtensionLogger {
     }
 }
 
-export default new ExtensionLogger(true);
+export default new ExtensionLogger(false);

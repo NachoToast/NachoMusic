@@ -1,3 +1,5 @@
+declare type CustomEvents = import('../../shared/messages').CustomEvents;
+
 // https://neutralino.js.org/docs/api/global-variables
 
 /** Operating system name. */
@@ -105,68 +107,59 @@ declare namespace Neutralino {
     /** {@link https://neutralino.js.org/docs/api/events API Reference} */
     namespace events {
         interface EventData {
-            ready: null;
-            trayMenuItemClicked: Neutralino.os.TrayMenuItem;
-            windowClose: null;
-            windowFocus: null;
-            windowBlur: null;
-            serverOffline: null;
-
-            // untested
-            clientConnect: number;
-            clientDisconnect: number;
-            appClientConnect: number;
-            appClientDisconnect: number;
-            extClientConnect: string;
-            extClientDisconnect: string;
-
-            // extension identifier
-            extensionReady: unknown;
-
-            spawnedProcess: { action: 'stdOut' | 'stdErr' | 'exit'; data: string; id: number };
+            ready: (_: CustomEvent<null>) => void;
+            trayMenuItemClicked: (item: CustomEvent<Neutralino.os.TrayMenuItem>) => void;
+            windowClose: (_: CustomEvent<null>) => void;
+            windowFocus: (_: CustomEvent<null>) => void;
+            windowBlur: (_: CustomEvent<null>) => void;
+            serverOffline: (_: CustomEvent<null>) => void;
+            clientConnect: (totalClients: CustomEvent<number>) => void;
+            clientDisconnect: (totalClients: CustomEvent<number>) => void;
+            appClientConnect: (totalAppClients: CustomEvent<number>) => void;
+            appClientDisconnect: (totalAppClients: CustomEvent<number>) => void;
+            extClientConnect: (extensionId: CustomEvent<string>) => void;
+            extClientDisconnect: (extensionId: CustomEvent<string>) => void;
+            extensionReady: (extensionId: CustomEvent<string>) => void;
+            spawnedProcess: (
+                spawned: CustomEvent<{ action: 'stdOut' | 'stdErr' | 'exit'; data: string; id: number }>,
+            ) => void;
         }
 
         /** Registers a native event handler. */
         function on<T extends keyof EventData>(
             eventType: T,
-            handler: (data: CustomEvent<EventData[T]>) => void,
+            handler: EventData[T],
         ): Promise<{ success: boolean; message: string }>;
 
-        /** Registers a custom event handler. */
-        function on<T>(
-            eventType: string,
-            handler: (data: CustomEvent<T>) => void,
-        ): Promise<{ success: boolean; message: string }>;
-
-        /** Registers an unknown event handler. */
-        function on(
-            eventType: string,
-            handler: (data: CustomEvent<unknown>) => void,
+        /** Registers a custom event handler documented in {@link CustomEvents}. */
+        function on<T extends keyof CustomEvents>(
+            eventType: T,
+            handler: CustomEvents[T]['appHandler'],
         ): Promise<{ success: boolean; message: string }>;
 
         /** Unregisters a native event handler. */
         function off<T extends keyof EventData>(
             eventType: T,
-            handler: (data: CustomEvent<EventData[T]>) => void,
+            handler: EventData[T],
         ): Promise<{ success: boolean; message: string }>;
 
-        /** Unregisters a custom native event handler. */
-        function off<T>(
-            eventType: string,
-            handler: (data: CustomEvent<T>) => void,
-        ): Promise<{ success: boolean; message: string }>;
-
-        /** Unregisters an unknown event handler. */
-        function off(
-            eventType: string,
-            handler: (data: CustomEvent<unknown>) => void,
+        /** Unregisters a custom event handler documented in {@link CustomEvents}. */
+        function off<T extends keyof CustomEvents>(
+            eventType: T,
+            handler: CustomEvents[T]['appHandler'],
         ): Promise<{ success: boolean; message: string }>;
 
         /** Dispatches a new event to the current app instance. */
-        function dispatch(eventName: string, data?: unknown): Promise<void>;
+        function dispatch<T extends keyof CustomEvents>(
+            eventName: T,
+            ...data: Parameters<CustomEvents[T]['generalHandler']>
+        ): Promise<void>;
 
         /** Dispatches a new event to all clients (app and extension clients). */
-        function broadcast(eventName: string, data?: unknown): Promise<void>;
+        function broadcast<T extends keyof CustomEvents>(
+            eventName: T,
+            ...data: Parameters<CustomEvents[T]['generalHandler']>
+        ): Promise<void>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/extensions API Reference} */
@@ -177,7 +170,11 @@ declare namespace Neutralino {
          * If the targeted extension is not connected yet,
          * Neutralino client library will queue the function call and send whenever the extension comes online.
          */
-        function dispatch(identifier: string, eventName: string, data?: unknown): Promise<void>;
+        function dispatch<T extends keyof CustomEvents>(
+            identifier: string,
+            eventName: T,
+            ...data: Parameters<CustomEvents[T]['generalHandler']>
+        ): Promise<void>;
 
         /**
          * Dispatches a new event to all connected extensions.
@@ -187,7 +184,10 @@ declare namespace Neutralino {
          *
          * Use `extensions.dispatch` to send messages even if the extension is not connected to the main process.
          */
-        function broadcast(eventName: string, data?: unknown): Promise<void>;
+        function broadcast<T extends keyof CustomEvents>(
+            eventName: T,
+            ...data: Parameters<CustomEvents[T]['generalHandler']>
+        ): Promise<void>;
 
         /**
          * Returns details about connected and loaded extensions.

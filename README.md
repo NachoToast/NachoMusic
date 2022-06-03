@@ -86,7 +86,7 @@ yarn install:extensions
 yarn package
 ```
 
-For an ideal app development environment, use one terminal for the `dev:app` script, and a second terminal for the start script. You can then reload the app using `CTRL + R` or `F5` (Mac equivalents work too).
+For an ideal app development environment, use one terminal for the `dev:app` script, and a second terminal for the start script. After this the app should reload automatically whenever a Typescript file changes. You can reload the app manually using `CTRL + R` or `F5` (or their Mac equivalents).
 
 For extension development, reloading the app is not feasible since extensions rely on a websocket connection to the it. Because of this it's recommended to employ testing suites for extensions.
 

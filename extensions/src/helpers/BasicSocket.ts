@@ -120,8 +120,10 @@ class BasicSocket extends TypedEmitter<
     }
 
     /** Sends an informative logging message to the main app instance. */
-    public log(message: unknown) {
-        this.send('extensionLog', { id: this.id, message });
+    public log(...messages: unknown[]) {
+        messages.forEach((message) => {
+            this.send('extensionLog', { id: this.id, message });
+        });
     }
 }
 

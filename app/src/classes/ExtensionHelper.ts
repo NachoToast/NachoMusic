@@ -86,14 +86,23 @@ class ExtensionLogger {
         });
     }
 
-    public add(id: string, log: WatchEventLevels[], alias?: string): boolean {
+    public add(id: string, log: WatchEventLevels[] | 'ALL', alias?: string): boolean {
         if (alias !== undefined && this._aliases.has(alias)) {
             throw new Error(`Already tracking an extension with alias "${alias}"`);
         }
         if (this._tracking[id] !== undefined) {
             throw new Error(`Already tracking an extension with id "${id}"`);
         }
-        this._tracking[id] = { watching: new Set(log), alias };
+
+        let watching: Set<WatchEventLevels>;
+        if (log === 'ALL') {
+            watching = new Set([WatchEventLevels.Errors, WatchEventLevels.Logs, WatchEventLevels.Ready]);
+        } else {
+            watching = new Set(log);
+        }
+
+        this._tracking[id] = { watching, alias };
+        if (alias !== undefined) this._aliases.add(alias);
         return true;
     }
 
@@ -102,9 +111,9 @@ class ExtensionLogger {
         eventName: T,
         handler: CustomEvents[T]['appHandler'],
     ): void {
-        if (this._tracking[id] !== undefined) {
+        if (this._tracking[id] !== undefined || this._aliases.has(id)) {
             Neutralino.events.on(eventName, handler);
-        } else throw new Error(`Not tracking ${id}`);
+        } else throw new Error(`Not tracking "${id}"`);
     }
 }
 

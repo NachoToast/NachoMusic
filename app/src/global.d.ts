@@ -1,5 +1,9 @@
 declare type CustomEvents = import('../../shared/messages').CustomEvents;
 
+interface BaseResponse {
+    success: boolean;
+}
+
 // https://neutralino.js.org/docs/api/global-variables
 
 /** Operating system name. */
@@ -69,13 +73,13 @@ declare namespace Neutralino {
         function getConfig(): Promise<Record<string, unknown>>;
 
         /** Dispatches a new event to all app instances. */
-        function broadcast(eventName: string, data?: string): Promise<{ success: boolean }>;
+        function broadcast(eventName: string, data?: string): Promise<BaseResponse>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/clipboard API Reference} */
     namespace clipboard {
         /** Writes text into the system clipboard. */
-        function writeText(text: string): Promise<{ success: boolean }>;
+        function writeText(text: string): Promise<BaseResponse>;
 
         /** Reads and returns text from the system clipboard. */
         function readText(): Promise<string>;
@@ -153,13 +157,13 @@ declare namespace Neutralino {
         function dispatch<T extends keyof CustomEvents>(
             eventName: T,
             ...data: Parameters<CustomEvents[T]['generalHandler']>
-        ): Promise<void>;
+        ): Promise<BaseResponse>;
 
         /** Dispatches a new event to all clients (app and extension clients). */
         function broadcast<T extends keyof CustomEvents>(
             eventName: T,
             ...data: Parameters<CustomEvents[T]['generalHandler']>
-        ): Promise<void>;
+        ): Promise<BaseResponse>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/extensions API Reference} */
@@ -174,7 +178,7 @@ declare namespace Neutralino {
             identifier: string,
             eventName: T,
             ...data: Parameters<CustomEvents[T]['generalHandler']>
-        ): Promise<void>;
+        ): Promise<BaseResponse>;
 
         /**
          * Dispatches a new event to all connected extensions.
@@ -187,7 +191,7 @@ declare namespace Neutralino {
         function broadcast<T extends keyof CustomEvents>(
             eventName: T,
             ...data: Parameters<CustomEvents[T]['generalHandler']>
-        ): Promise<void>;
+        ): Promise<BaseResponse>;
 
         /**
          * Returns details about connected and loaded extensions.
@@ -203,23 +207,23 @@ declare namespace Neutralino {
     namespace filesystem {
         // TODO: documentation for this
 
-        function createDirectory(path: string): Promise<void>;
+        function createDirectory(path: string): Promise<BaseResponse>;
 
-        function removeDirectory(path: string): Promise<void>;
+        function removeDirectory(path: string): Promise<BaseResponse>;
 
-        function writeFile(filename: string, data: string): Promise<void>;
+        function writeFile(filename: string, data: string): Promise<BaseResponse>;
 
-        function appendFile(filename: string, data: string): Promise<void>;
+        function appendFile(filename: string, data: string): Promise<BaseResponse>;
 
-        function writeBinaryFile(filename: string, data: ArrayBuffer): Promise<void>;
+        function writeBinaryFile(filename: string, data: ArrayBuffer): Promise<BaseResponse>;
 
-        function appendBinaryFile(filename: string, data: ArrayBuffer): Promise<void>;
+        function appendBinaryFile(filename: string, data: ArrayBuffer): Promise<BaseResponse>;
 
         function readFile(filename: string): Promise<string>;
 
         function readBinaryFile(filename: string): Promise<ArrayBuffer>;
 
-        function removeFile(filename: string): Promise<void>;
+        function removeFile(filename: string): Promise<BaseResponse>;
 
         function readDirectory(path: string): Promise<
             Array<{
@@ -230,9 +234,9 @@ declare namespace Neutralino {
             }>
         >;
 
-        function copyFile(source: string, destination: string): Promise<void>;
+        function copyFile(source: string, destination: string): Promise<BaseResponse>;
 
-        function moveFile(source: string, destination: string): Promise<void>;
+        function moveFile(source: string, destination: string): Promise<BaseResponse>;
 
         function getStats(path: string): Promise<{
             /** Size in bytes. */
@@ -255,28 +259,36 @@ declare namespace Neutralino {
      */
     function init(): void;
 
-    interface CommandOptions {
-        /**
-         * If true will execute command in the background and resolve the promise immediately,
-         * use this for making detached API function calls.
-         */
-        background?: boolean;
-
-        /** Standard input as a string. */
-        stdIn?: string;
-    }
-
+    /** {@link https://neutralino.js.org/docs/api/os API Reference} */
     namespace os {
+        /** Detached for commenting and reusability. */
+        interface CommandOptions {
+            /**
+             * If true will execute command in the background and resolve the promise immediately,
+             * use this for making detached API function calls.
+             */
+            background?: boolean;
+
+            /** Standard input as a string. */
+            stdIn?: string;
+        }
         /** Executes a command and returns the output. */
         function execCommand(
             command: string,
             options?: CommandOptions,
         ): Promise<{ exitCode: number; pid: number; stdErr: string; stdOut: string }>;
 
+        /** @deprecated Doesn't seem to exist. */
         function spawnProcess(command: string): Promise<unknown>;
 
-        function updateSpawnedProcess(id: number, action: 'stdIn' | 'stdInEnd' | 'exit', data?: unknown): Promise<void>;
+        /** @deprecated Doesn't seem to exist. */
+        function updateSpawnedProcess(
+            id: number,
+            action: 'stdIn' | 'stdInEnd' | 'exit',
+            data?: unknown,
+        ): Promise<BaseResponse>;
 
+        /** @deprecated Doesn't seem to exist. */
         function getSpawnedProcesses(): Promise<unknown[]>;
 
         function getEnv(key: string): Promise<string>;
@@ -299,12 +311,21 @@ declare namespace Neutralino {
             icon?: 'INFO' | 'WARNING' | 'ERROR' | 'QUESTION',
         ): Promise<void>;
 
-        function showMessageBox(
+        interface MessageBoxChoices {
+            OK: 'OK';
+            OK_CANCEL: 'OK' | 'CANCEL';
+            YES_NO: 'YES' | 'NO';
+            YES_NO_CANCEL: 'YES' | 'NO' | 'CANCEL';
+            RETRY_CANCEL: 'RETRY' | 'CANCEL';
+            ABORT_RETRY_IGNORE: 'ABORT' | 'RETRY' | 'IGNORE';
+        }
+
+        function showMessageBox<T extends keyof MessageBoxChoices = 'OK'>(
             title: string,
             content: string,
-            choice?: 'OK' | 'OK_CANCEL' | 'YES_NO' | 'YES_NO_CANCEL' | 'RETRY_CANCEL' | 'ABORT_RETRY_IGNORE',
+            choice?: T,
             icon?: 'INFO' | 'WARNING' | 'ERROR' | 'QUESTION',
-        ): Promise<string>;
+        ): Promise<MessageBoxChoices[T]>;
 
         interface TrayMenuItem {
             id?: string;
@@ -332,6 +353,121 @@ declare namespace Neutralino {
         ): Promise<string>;
 
         /** Opens a URL with the default web browser. */
-        function open(url: string): Promise<{ success: boolean }>;
+        function open(url: string): Promise<BaseResponse>;
+    }
+
+    /** {@link https://neutralino.js.org/docs/api/storage API Reference} */
+    namespace storage {
+        // TODO: typing for custom data keys and payloads
+
+        function setData(key: string, data: string): Promise<void>;
+
+        function getData(key: string): Promise<string>;
+    }
+
+    /** {@link https://neutralino.js.org/docs/api/updater API Reference} */
+    namespace updater {
+        // TODO: manifset shape interface
+        function checkForUpdates(url: string): Promise<object>;
+
+        function install(): Promise<void>;
+    }
+
+    /** {@link https://neutralino.js.org/docs/api/window API Reference} */
+    namespace window {
+        function setTitle(title: string): Promise<BaseResponse>;
+
+        function getTitle(): Promise<string>;
+
+        function minimize(): Promise<BaseResponse>;
+        function maximize(): Promise<BaseResponse>;
+        function unmaximize(): Promise<BaseResponse>;
+        function isMaximized(): Promise<boolean>;
+
+        function setFullScreen(): Promise<BaseResponse>;
+        function exitFullScreen(): Promise<BaseResponse>;
+        function isFullScreen(): Promise<boolean>;
+
+        function show(): Promise<BaseResponse>;
+        function hide(): Promise<BaseResponse>;
+        function isVisible(): Promise<boolean>;
+
+        function focus(): Promise<BaseResponse>;
+
+        function setAlwaysOnTop(onTop: boolean): Promise<BaseResponse>;
+
+        /**
+         * Moves the native window into given coordinates.
+         *
+         * Neutralinojs's cross-platform coordinate system starts from top-left corner of the screen.
+         *
+         * In other words, `x=0,y=0` point refers to the top-left corner of the device's main screen.
+         */
+        function move(x: number, y: number): Promise<BaseResponse>;
+
+        /**
+         * Sets an icon for the native window or Dock.
+         * @param {String} icon Path of the icon, e.g. `/resources/icons/appIcon.png`.
+         */
+        function setIcon(icon: string): Promise<BaseResponse>;
+
+        /**
+         * Converts a given DOM element to a draggable region.
+         *
+         * The user will be able to drag the native window by dragging the given DOM element.
+         *
+         * Suitable to make custom window bars along with the borderless mode.
+         */
+        function setDraggableRegion(domId: string): Promise<BaseResponse>;
+
+        function unsetDraggableRegion(domId: string): Promise<BaseResponse>;
+
+        interface InputSizeInfo {
+            width?: number;
+            height?: number;
+            minWidth?: number;
+            minHeight?: number;
+            maxWidth?: number;
+            maxHeight?: number;
+            resizable?: boolean;
+        }
+
+        interface OutputSizeInfo {
+            width: number;
+            height: number;
+            minWidth: number;
+            minHeight: number;
+            maxWidth: number;
+            maxHeight: number;
+            resizable: boolean;
+        }
+
+        /** Always expects width and height couples,
+         * so make sure if you are setting a width value you also set the height one.
+         */
+        function setSize(options: InputSizeInfo): Promise<BaseResponse>;
+
+        function getSize(): Promise<OutputSizeInfo>;
+
+        function getPosition(): Promise<{ x: number; y: number }>;
+
+        interface WindowOptions {
+            title?: string;
+            icon?: string;
+            fullScreen?: boolean;
+            alwaysOnTop?: boolean;
+            enableInspector?: boolean;
+            borderless?: boolean;
+            maximize?: boolean;
+            hidden?: boolean;
+            maximizable?: boolean;
+            exitProcessOnClose?: boolean;
+            processArgs?: string;
+        }
+
+        function create(
+            url: string,
+            windowOptions?: WindowOptions,
+        ): Promise<{ pid: number; stdOut: string; stdErr: string; exitCode: number }>;
     }
 }

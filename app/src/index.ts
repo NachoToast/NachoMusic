@@ -1,9 +1,13 @@
-import ExtensionLogger from './classes/ExtensionHelper';
+import ExtensionLogger, { WatchEventLevels } from './classes/ExtensionHelper';
 
 function main() {
     Neutralino.init();
 
-    ExtensionLogger.add('js.neutralino.sample.my_nodejs_extension');
+    ExtensionLogger.add(
+        'js.neutralino.sample.my_nodejs_extension',
+        [WatchEventLevels.Errors, WatchEventLevels.Logs],
+        'sampleExt',
+    );
 
     ExtensionLogger.addEvent('js.neutralino.sample.my_nodejs_extension', 'testEvent', ({ detail }) =>
         console.log(detail[0]),

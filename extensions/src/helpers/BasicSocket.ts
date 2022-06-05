@@ -34,7 +34,8 @@ class BasicSocket extends TypedEmitter<
         this._webSocket.onopen = () => this.handleOpen();
 
         this.once('ready', () => {
-            this.log(`Connected on port ${this.port}`);
+            // uncomment this for more debug logging
+            // this.log(`Connected on port ${this.port}`);
         });
     }
 

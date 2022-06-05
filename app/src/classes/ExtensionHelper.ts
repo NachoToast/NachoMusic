@@ -1,25 +1,31 @@
+export enum WatchEventLevels {
+    Errors,
+    Ready,
+    Logs,
+}
+
 class ExtensionLogger {
-    private readonly _tracking: Record<string, 'ALL' | 'ERRORS'> = {};
+    private readonly _tracking: Record<string, { watching: Set<WatchEventLevels>; alias?: string }> = {};
+    private readonly _aliases: Set<string> = new Set<string>();
 
     public constructor(verbose: boolean = false) {
         Neutralino.events.on('extensionReady', ({ detail: id }) => {
-            if (this._tracking[id] === 'ALL') {
-                console.log(`%c${id} is ready`, 'color: lime');
+            if (this._tracking[id]?.watching.has(WatchEventLevels.Ready)) {
+                console.log(`%c${this._tracking[id].alias ?? id} is ready`, 'color: lime');
             }
         });
 
         Neutralino.events.on('extensionError', ({ detail }) => {
             const { id, message, stack } = detail[0];
-            if (this._tracking[id] !== undefined) {
-                console.error(id, '\n', message, '\n', stack);
+            if (this._tracking[id]?.watching.has(WatchEventLevels.Errors)) {
+                console.error(this._tracking[id].alias ?? id, '\n', message, '\n', stack);
             }
         });
 
         Neutralino.events.on('extensionLog', ({ detail }) => {
             const { id, message } = detail[0];
-            if (this._tracking[id] !== undefined) {
-                console.log(`%c${id}`, 'color: gray');
-                console.log(message);
+            if (this._tracking[id]?.watching.has(WatchEventLevels.Logs)) {
+                console.log(`%c[${this._tracking[id].alias ?? id}]%c`, 'color: gray', 'color: white', message);
             }
         });
 
@@ -80,9 +86,14 @@ class ExtensionLogger {
         });
     }
 
-    public add(id: string, log: 'ALL' | 'ERRORS' = 'ALL'): boolean {
-        if (this._tracking[id] !== undefined) return false;
-        this._tracking[id] = log;
+    public add(id: string, log: WatchEventLevels[], alias?: string): boolean {
+        if (alias !== undefined && this._aliases.has(alias)) {
+            throw new Error(`Already tracking an extension with alias "${alias}"`);
+        }
+        if (this._tracking[id] !== undefined) {
+            throw new Error(`Already tracking an extension with id "${id}"`);
+        }
+        this._tracking[id] = { watching: new Set(log), alias };
         return true;
     }
 

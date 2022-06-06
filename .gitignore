@@ -16,3 +16,5 @@ extensions/build
 .storage
 *.log
 .tmp/
+
+app/build/data/

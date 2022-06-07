@@ -238,7 +238,7 @@ declare namespace Neutralino {
 
         function moveFile(source: string, destination: string): Promise<BaseResponse>;
 
-        function getStats(path: string): Promise<{
+        interface FileStats {
             /** Size in bytes. */
             size: number;
 
@@ -246,10 +246,12 @@ declare namespace Neutralino {
 
             isDirectory: boolean;
 
-            createdAt: number;
+            createdAt?: number;
 
-            modifiedAt: number;
-        }>;
+            modifiedAt?: number;
+        }
+
+        function getStats(path: string): Promise<FileStats>;
     }
 
     /**
@@ -293,15 +295,20 @@ declare namespace Neutralino {
 
         function getEnv(key: string): Promise<string>;
 
+        interface Filter {
+            name: string;
+            extensions: string[];
+        }
+
         function showOpenDialog(
             title: string,
-            options: { filters?: unknown[]; multiSelections?: boolean },
-        ): Promise<unknown>;
+            options: { filters?: Filter[]; multiSelections?: boolean },
+        ): Promise<string[]>;
 
         function showSaveDialog(
             title: string,
-            options?: { filters?: unknown[]; forceOverwrite?: boolean },
-        ): Promise<string>;
+            options?: { filters?: Filter[]; forceOverwrite?: boolean },
+        ): Promise<string[]>;
 
         function showFolderDialog(title?: string): Promise<string>;
 

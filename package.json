@@ -16,7 +16,7 @@
         "typecheck:app": "cd app && yarn typecheck",
         "typecheck:ext": "cd extensions && yarn typecheck",
         "lint:app": "eslint \"app/src/**/*.ts\" \"app/src/**/*.tsx\" --max-warnings=0",
-        "lint:extensions": "eslint \"extensions/src/**/*.ts\"--max-warnings=0",
+        "lint:ext": "eslint \"extensions/src/**/*.ts\"--max-warnings=0",
         "test:app": "cd app && yarn test",
         "start": "neu run --frontend-lib-dev",
         "update": "neu update",

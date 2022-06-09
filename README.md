@@ -38,6 +38,8 @@ Everything after this can be done in a terminal:
 
 ```sh
 git clone https://github.com/NachoToast/NachoMusic.git
+git update-index --assume-unchanged app/public/index.html
+
 cd NachoMusic
 yarn install
 yarn install:app
@@ -45,6 +47,7 @@ yarn install:ext
 
 yarn build:app
 yarn build:ext
+
 
 yarn update
 yarn start

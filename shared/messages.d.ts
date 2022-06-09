@@ -17,4 +17,12 @@ export interface CustomEvents {
         appHandler: (log: CustomEvent<[{ id: string; message: unknown }]>) => void;
         generalHandler: (log: { id: string; message: unknown }) => void;
     };
+    youtubeSearchQuery: {
+        appHandler: (queryString: CustomEvent<[string]>) => void;
+        generalHandler: (queryString: string) => void;
+    };
+    youtubeSearchResult: {
+        appHandler: (results: unknown) => void;
+        generalHandler: (results: unknown) => void;
+    };
 }

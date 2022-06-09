@@ -21,7 +21,7 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node-version }}
-                  cache: 'yarn'
+                  cache: 'npm'
             - name: Install Main Dependencies
               run: yarn install --frozen-lockfile
             - name: Install App Dependencies

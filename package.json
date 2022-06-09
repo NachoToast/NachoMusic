@@ -7,36 +7,32 @@
     "license": "MIT",
     "private": true,
     "scripts": {
-        "install:extensions": "cd extensions && yarn",
-        "build": "webpack --config app/webpack.config.js --mode production",
-        "build:extensions": "cd extensions && yarn build",
-        "dev": "nodemon --config app/nodemon.json",
-        "dev:extensions": "nodemon --config extensions/nodemon.json",
-        "typecheck": "tsc -p app/tsconfig.json --noEmit",
-        "typecheck:extensions": "cd extensions && yarn typecheck",
-        "lint": "eslint \"app/src/**\" --ext .ts --max-warnings=0",
-        "lint:extensions": "eslint \"extensions/src/**\" --ext .ts --max-warnings=0",
-        "start": "neu run",
+        "install:app": "cd app && yarn",
+        "install:ext": "cd extensions && yarn",
+        "build:app": "cd app && yarn build",
+        "build:ext": "cd extensions && yarn build",
+        "dev:app": "cd app && yarn start",
+        "dev:ext": "cd extensions && yarn dev",
+        "typecheck": "cd app && yarn typecheck",
+        "typecheck:ext": "cd extensions && yarn typecheck",
+        "lint:app": "eslint \"app/src/**/*.ts\" \"app/src/**/*.tsx\" --max-warnings=0",
+        "lint:extensions": "eslint \"extensions/src/**/*.ts\"--max-warnings=0",
+        "test:app": "cd app && yarn test",
+        "start": "neu run --frontend-lib-dev",
         "update": "neu update",
-        "package": "neu build && ts-node dist/NachoMusic/extensions/postPackage.ts"
+        "package": "yarn build:app && yarn build:ext && neu build && ts-node dist/NachoMusic/extensions/postPackage.ts"
     },
     "dependencies": {
-        "@neutralinojs/neu": "^9.3.1",
-        "path-browserify": "^1.0.1"
+        "@neutralinojs/neu": "^9.3.1"
     },
     "devDependencies": {
         "@types/node": "^17.0.38",
-        "@types/path-browserify": "^1.0.0",
         "@typescript-eslint/eslint-plugin": "^5.27.0",
         "@typescript-eslint/parser": "^5.27.0",
         "eslint": "^8.16.0",
         "eslint-config-prettier": "^8.5.0",
-        "nodemon": "^2.0.16",
         "prettier": "^2.6.2",
-        "ts-loader": "^9.3.0",
         "ts-node": "^10.8.0",
-        "typescript": "^4.7.2",
-        "webpack": "^5.72.1",
-        "webpack-cli": "^4.9.2"
+        "typescript": "^4.7.2"
     }
 }

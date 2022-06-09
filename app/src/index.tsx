@@ -1,6 +1,19 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
 import ExtensionLogger, { WatchEventLevels } from './classes/ExtensionHelper';
 import Settings from './classes/Settings';
 import SongManager from './classes/SongManager';
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+root.render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+);
+
+Neutralino.init();
 
 function main() {
     Neutralino.init();

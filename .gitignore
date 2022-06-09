@@ -1,20 +1,18 @@
-# Install dependencies and package manager files
+# Dependencies and package manager
 node_modules/
 package-lock.json
 
-# Neutralinojs binaries and builds
+# Releases
 dist/
 
-# Neutralinojs client (minified)
+# Neutralinojs (minified) client 
 neutralino.js
 
-# Compiled JS files
-app/build/bundle.js
-extensions/build
+# Compiled
+app/build/
+extensions/build/
 
-# Neutralinojs related files
+# Miscellaneous
 .storage
 *.log
 .tmp/
-
-app/build/data/

@@ -1,4 +1,4 @@
-import { basename } from 'path';
+import { basename } from 'path-browserify';
 import { files, validateAllFiles } from '../helpers/fileHelper';
 
 class SongManager {

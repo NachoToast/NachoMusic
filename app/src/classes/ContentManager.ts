@@ -1,4 +1,4 @@
-import { basename } from 'path';
+import { basename } from 'path-browserify';
 
 /** Handles file reading, creation, and general management. */
 class ContentManager {

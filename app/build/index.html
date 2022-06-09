@@ -8,17 +8,26 @@
     <link rel="stylesheet" href="styles/main.css" />
     <link rel="stylesheet" href="styles/scrollbar.css" />
     <link rel="stylesheet" href="styles/navbar.css" />
+    <link rel="stylesheet" href="styles/songsPage.css" />
+    <link rel="stylesheet" href="styles/searchPage.css" />
     <title>NachoMusic</title>
 </head>
 <body>
-    <div id='navbar' class='noselect'>
-        <h2 id="playlists">📁 Playlists</h2>
-        <h2 id="songs">🎶 Songs</h2>
-        <h2 id="search">🔍 Search</h2>
-        <h2 id="settings">🔧 Settings</h2>
-    </div>
-    <div id='content'>
-        <p>content</p>
+    <div id='app'>
+        <div id='navbar' class='noselect'>
+            <h2 id="playlistsPageButton">📁 Playlists</h2>
+            <h2 id="songsPageButton">🎶 Songs</h2>
+            <h2 id="searchPageButton">🔍 Search</h2>
+            <h2 id="settingsPageButton" class='selected'>🔧 Settings</h2>
+        </div>
+        <div id='content'>
+            <div id='searchPage'>
+                <div style="display:flex">
+                    <input id='songSearchInput' type="text" placeholder="Search Songs" spellcheck="false">
+                    <button id='songSearchInputGoButton'>🔍</button>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="neutralino.js"></script>
     <script src="bundle.js"></script>

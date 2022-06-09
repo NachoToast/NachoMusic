@@ -3,7 +3,6 @@ body {
     color: #ccc;
     background: black;
     margin: 0;
-    border: solid 1px pink;
     box-sizing: border-box;
     height: 100vh;
 }
@@ -14,9 +13,12 @@ h1, h2, h3 {
 
 #app {
     display: flex;
-    flex-flow: row nowrap;
-    border: solid 1px brown;
-    box-sizing: border-box;
+    flex-flow: column nowrap;
+    height: 100%;
+}
+
+#content {
+    flex-grow: 1;
 }
 
 .noselect {

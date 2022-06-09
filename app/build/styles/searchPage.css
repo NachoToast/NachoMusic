@@ -1,0 +1,31 @@
+#searchPage {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    flex-grow: 1;
+    align-items: center;
+    padding: 1em;
+    box-sizing: border-box;
+}
+
+#songSearchInput {
+    outline: none;
+    font-size: 20pt;
+}
+
+#songSearchInputGoButton {
+    background-color: transparent;
+    cursor: pointer;
+    border: dashed 1px gray;
+    border-radius: 0.1em;
+    transition: background-color 0.1s linear;
+    margin-left: 0.5em;
+}
+
+#songSearchInputGoButton:hover {
+    background-color: #333;
+}
+
+#songSearchInputGoButton:active {
+    background-color: #666;
+}

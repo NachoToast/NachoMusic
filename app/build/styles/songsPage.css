@@ -1,0 +1,7 @@
+div.songContainer {
+    display: flex;
+}
+
+div.song {
+    border: solid 1px gray;
+}

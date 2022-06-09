@@ -4,6 +4,7 @@
         "module": "CommonJS",
         "sourceMap": false,
         "noImplicitAny": true,
+        "esModuleInterop": true,
         "moduleResolution": "node",
         "strict": true,
         "alwaysStrict": true,

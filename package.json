@@ -13,7 +13,7 @@
         "build:ext": "cd extensions && yarn build",
         "dev:app": "cd app && yarn start",
         "dev:ext": "cd extensions && yarn dev",
-        "typecheck": "cd app && yarn typecheck",
+        "typecheck:app": "cd app && yarn typecheck",
         "typecheck:ext": "cd extensions && yarn typecheck",
         "lint:app": "eslint \"app/src/**/*.ts\" \"app/src/**/*.tsx\" --max-warnings=0",
         "lint:extensions": "eslint \"extensions/src/**/*.ts\"--max-warnings=0",

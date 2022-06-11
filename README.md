@@ -53,6 +53,8 @@ yarn update
 yarn start
 ```
 
+You may get a `Neutralino is not defined` error on initial startup, simply reload the app using `F5` or `CTRL + R` to fix this.
+
 See [script reference](#script-reference) below for other options like hot-reloading, linting, and typechecking.
 
 ## Script Reference

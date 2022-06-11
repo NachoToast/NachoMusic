@@ -22,9 +22,12 @@
         "prebuild:app": "ts-node restoreIndex.ts",
         "start": "neu run --frontend-lib-dev",
         "update": "neu update",
-        "package": "yarn build:app && yarn build:ext && neu build && ts-node dist/NachoMusic/extensions/postPackage.ts"
+        "package": "yarn build:app && yarn build:ext && neu build && ts-node dist/NachoMusic/extensions/postPackage.ts",
+        "check-all": "yarn typecheck:app && yarn typecheck:ext && yarn lint:app && yarn lint:ext && yarn test:app"
     },
     "dependencies": {
+        "@fontsource/roboto": "^4.5.7",
+        "@mui/icons-material": "^5.8.3",
         "@neutralinojs/neu": "^9.3.1"
     },
     "devDependencies": {

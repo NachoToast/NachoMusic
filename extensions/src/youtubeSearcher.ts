@@ -3,16 +3,12 @@ import BasicSocket from './helpers/BasicSocket';
 
 const socket = new BasicSocket();
 
-socket.on('youtubeSearchQuery', async (queryString) => {
+socket.on('youtubeSearchQuery', async ({ queryString, limit }) => {
     try {
-        const results = await ytsr(queryString);
+        const results = await ytsr(queryString, { limit });
 
-        socket.log(results);
+        socket.send('youtubeSearchResult', results);
     } catch (error) {
-        socket.log('error');
+        socket.handleError(error instanceof Error ? error : new Error(`Error getting results for ${queryString}`));
     }
-});
-
-socket.on('testEvent', (a) => {
-    socket.log('testEvent', `received ${a}`);
 });

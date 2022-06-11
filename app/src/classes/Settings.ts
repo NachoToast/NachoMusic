@@ -14,7 +14,7 @@ class Settings {
         await validateAllFiles();
         const settings: SettingsData = JSON.parse(await Neutralino.filesystem.readFile(files.settings));
         this._instance._settings = settings;
-        this._instance.reloadPageButtons();
+        // this._instance.reloadPageButtons();
         return this._instance;
     }
 

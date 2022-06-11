@@ -1,20 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import SearchPage from './components/SearchPage';
+import SongsPage from './components/SongsPage';
+import PlaylistsPage from './components/PlaylistsPage';
+import SettingsPage from './components/SettingsPage';
+import Navbar from './components/Navbar';
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Learn React 4
-                </a>
-            </header>
-        </div>
+        <BrowserRouter>
+            <Navbar />
+            <Routes>
+                <Route index element={<PlaylistsPage />} />
+                <Route path="playlists" element={<PlaylistsPage />} />
+                <Route path="songs" element={<SongsPage />} />
+                <Route path="search" element={<SearchPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

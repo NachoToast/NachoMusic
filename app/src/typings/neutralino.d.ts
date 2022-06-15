@@ -1,4 +1,4 @@
-declare type CustomEvents = import('../../shared/messages').CustomEvents;
+declare type CustomEvents = import('../../../shared/messages').CustomEvents;
 
 interface BaseResponse {
     success: boolean;

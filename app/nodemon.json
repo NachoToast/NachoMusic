@@ -1,5 +1,0 @@
-{
-    "ext": "ts",
-    "watch": ["app/src/**"],
-    "exec": "yarn build"
-}

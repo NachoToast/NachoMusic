@@ -38,14 +38,22 @@ Everything after this can be done in a terminal:
 
 ```sh
 git clone https://github.com/NachoToast/NachoMusic.git
+git update-index --assume-unchanged app/public/index.html
+
 cd NachoMusic
 yarn install
-yarn install:extensions
-yarn build
-yarn build:extensions
+yarn install:app
+yarn install:ext
+
+yarn build:app
+yarn build:ext
+
+
 yarn update
 yarn start
 ```
+
+You may get a `Neutralino is not defined` error on initial startup, simply reload the app using `F5` or `CTRL + R` to fix this.
 
 See [script reference](#script-reference) below for other options like hot-reloading, linting, and typechecking.
 
@@ -60,44 +68,39 @@ npm run <scriptname>
 ```
 
 ```sh
-# Compiling and bundling using TSC and webpack
-yarn build
-yarn build:extensions
+# Compiling and bundling using React scripts (app) and TSC (extensions)
+yarn build:app
+yarn build:ext
 
 # Linting using Eslint and Prettier
-yarn lint
-yarn lint:extensions
+yarn lint:app
+yarn lint:ext
 
 # Type checking using TSC
-yarn typecheck
-yarn typecheck:extensions
+yarn typecheck:app
+yarn typecheck:ext
 
 # Compiling with hot-reloading
-yarn dev
-yarn dev:extensions
+yarn dev:app
+yarn dev:ext
 
 # Updating Neutralinojs binaries and client
 yarn update
 
-# Installing extension dependencies
-yarn install:extensions
+# Installing dependencies
+yarn install:app
+yarn install:ext
+
+# Start app process
+yarn start
+
+# Testing using Jest
+yarn test:app
 
 # Packaging app for release
 yarn package
 ```
 
-For an ideal app development environment, use one terminal for the `dev` script, and a second terminal for the `start` script. After this the app should reload automatically whenever a Typescript file changes. You can reload the app manually using `CTRL + R` or `F5` (or their Mac equivalents).
+For an ideal app development environment, use one terminal for the `dev:app` script, and a second terminal for the `start` script. After this the app should reload automatically whenever a source app file changes. You can reload the app manually using `CTRL + R` or `F5` (or their Mac equivalents).
 
 For extension development, reloading the app is not feasible since extensions rely on a websocket connection to the it. Because of this it's recommended to employ testing suites for extensions.
-
-# Repository Structure
-
--   app - Folder for the main app, effectively a webpage within a window. Split into 2 subdirectories:
-    -   build - Compiled Javascript files for app functionality, alongside HTML, CSS, and images.
-    -   src - Typescript files for app functionality.
--   extensions - Folder for all extensions, these are processes that start when requested by the app. Split into 2 subdirectories:
-    -   build - Compiled Javascript files for all extensions.
-    -   src - Typescript files for all extensions.
--   bin - Binary executable files for running Neutralinojs and (eventually) other processes.
--   shared - Contains declarations that can be utilised by both app and extensions.
-    -   messages.d.ts - Defines custom events and their handlers for inter-process websocket communication.

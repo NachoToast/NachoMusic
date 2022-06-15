@@ -21,17 +21,20 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: ${{ matrix.node-version }}
-                  cache: 'yarn'
-            - name: Install Dependencies
+                  cache: 'npm'
+            - name: Install Main Dependencies
               run: yarn install --frozen-lockfile
-            - name: Typecheck
-              run: yarn typecheck
-            - name: Lint
-              run: yarn lint
+            - name: Install App Dependencies
+              run: cd app && yarn install --frozen-lockfile
             - name: Install Extension Dependencies
-              run: yarn install:extensions
+              run: cd extensions && yarn install --frozen-lockfile
+            - name: Typecheck App
+              run: yarn typecheck:app
+            - name: Lint App
+              run: yarn lint:app
+            - name: Test App
+              run: yarn test:app
             - name: Typecheck Extensions
-              run: yarn typecheck:extensions
+              run: yarn typecheck:ext
             - name: Lint Extensions
-              run: yarn lint:extensions
-              
+              run: yarn lint:ext

@@ -1,5 +1,4 @@
-import { Button, Card, CardContent, CardMedia, Stack, Tooltip, Typography } from '@mui/material';
-import { Box } from '@mui/system';
+import { Button, Card, CardContent, CardMedia, Stack, Tooltip, Typography, Box } from '@mui/material';
 import { ytsr } from '../../../shared/ytsr';
 import DownloadIcon from '@mui/icons-material/Download';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';

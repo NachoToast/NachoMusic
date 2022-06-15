@@ -6,8 +6,6 @@ import App from './App';
 import ExtensionLogger, { WatchEventLevels } from './classes/ExtensionHelper';
 import { Provider } from 'react-redux';
 
-import '@mui/material'; // remove this = App.test breaks
-
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';

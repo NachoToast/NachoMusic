@@ -96,6 +96,7 @@ yarn start
 
 # Testing using Jest
 yarn test:app
+yarn test:ext
 
 # Packaging app for release
 yarn package

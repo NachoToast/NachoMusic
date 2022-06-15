@@ -18,12 +18,13 @@
         "lint:app": "eslint \"app/src/**/*.ts\" \"app/src/**/*.tsx\" --max-warnings=0",
         "lint:ext": "eslint \"extensions/src/**/*.ts\" --max-warnings=0",
         "test:app": "cd app && yarn test",
+        "test:ext": "cd extensions && yarn test",
         "prestart": "ts-node restoreIndex.ts",
         "prebuild:app": "ts-node restoreIndex.ts",
         "start": "neu run --frontend-lib-dev",
         "update": "neu update",
         "package": "yarn build:app && yarn build:ext && neu build && ts-node dist/NachoMusic/extensions/postPackage.ts",
-        "check-all": "yarn typecheck:app && yarn typecheck:ext && yarn lint:app && yarn lint:ext && yarn test:app"
+        "check-all": "yarn typecheck:app && yarn typecheck:ext && yarn lint:app && yarn lint:ext && yarn test:app && yarn test:ext"
     },
     "dependencies": {
         "@fontsource/roboto": "^4.5.7",

@@ -8,7 +8,7 @@
         "moduleResolution": "node",
         "strict": true,
         "alwaysStrict": true,
-        "types": ["node"],
+        "types": ["node", "jest"],
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
         "outDir": "build"

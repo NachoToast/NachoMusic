@@ -56,6 +56,10 @@
         {
             "id": "js.nachotoast.youtubesearch",
             "command": "node extensions/build/youtubeSearcher.js"
+        },
+        {
+            "id": "js.nachotoast.fileserver",
+            "command": "node extensions/build/fileServer.js"
         }
     ]
 }

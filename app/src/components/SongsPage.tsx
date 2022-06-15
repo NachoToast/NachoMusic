@@ -1,5 +1,5 @@
+import React from 'react';
 import { CircularProgress } from '@mui/material';
-import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { getPort } from '../redux/slices/mainSlice';
 

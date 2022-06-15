@@ -5,14 +5,13 @@ import SongsPage from './components/SongsPage';
 import PlaylistsPage from './components/PlaylistsPage';
 import SettingsPage from './components/SettingsPage';
 import Navbar from './components/Navbar';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setPort } from './redux/slices/mainSlice';
 import { FILES } from './classes/TrackedFile';
 import { setSettings } from './redux/slices/settingsSlice';
 
 function App() {
     const dispatch = useDispatch();
-    // const filePaths = useSelector(getFilePaths);
 
     // one-time event listener for file server port information
     useEffect(() => {
@@ -28,12 +27,7 @@ function App() {
         };
     }, [dispatch]);
 
-    // file validation
-    // useEffect(() => {
-    //     validateFiles(filePaths).then(console.log);
-    // }, []);
-
-    // settings loading
+    // load settings
     useEffect(() => {
         FILES.SettingsFile.load().then((e) => dispatch(setSettings(e)));
     }, [dispatch]);

@@ -50,16 +50,8 @@
     },
     "extensions": [
         {
-            "id": "js.neutralino.sample.my_nodejs_extension",
-            "command": "node extensions/build/testExtension.js"
-        },
-        {
-            "id": "js.nachotoast.youtubesearch",
-            "command": "node extensions/build/youtubeSearcher.js"
-        },
-        {
-            "id": "js.nachotoast.fileserver",
-            "command": "node extensions/build/fileServer.js"
+            "id": "js.nachotoast.main_extension",
+            "command": "node extensions/build/index.js"
         }
     ]
 }

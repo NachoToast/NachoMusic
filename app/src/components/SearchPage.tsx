@@ -14,6 +14,7 @@ import getSearchSuggestions from '../helpers/getSearchSuggestions';
 import { CustomEvents } from '../../../shared/messages';
 import { ytsr } from '../../../shared/ytsr';
 import SearchResult from './SearchResult';
+import { MAIN_EXTENSION } from '../typings/Main';
 
 enum SearchState {
     /** The user is actively editing their input, suggestions are being made dynamically. */
@@ -47,7 +48,7 @@ const SearchPage = () => {
             e?.preventDefault();
             if (!currentSearchTerm) return;
             setCurrentState(SearchState.Loading);
-            Neutralino.extensions.dispatch('js.nachotoast.youtubesearch', 'youtubeSearchQuery', {
+            Neutralino.extensions.dispatch(MAIN_EXTENSION, 'youtubeSearchQuery', {
                 queryString: currentSearchTerm,
                 limit: 10,
             });

@@ -42,7 +42,7 @@ async function remove(paths: string[], areFolders: boolean): Promise<void> {
 async function main(): Promise<void> {
     // remove source files
     await remove(['src'], true);
-    await remove(['nodemon.json', 'tsconfig.json', 'postPackage.ts'], false);
+    await remove(['nodemon.json', 'tsconfig.json', 'postPackage.ts', 'jest.config.js'], false);
 
     // creating autoclean file
     {

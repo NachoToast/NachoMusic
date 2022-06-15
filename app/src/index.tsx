@@ -4,13 +4,13 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import ExtensionLogger, { WatchEventLevels } from './classes/ExtensionHelper';
-import Settings from './classes/Settings';
-import SongManager from './classes/SongManager';
+import { Provider } from 'react-redux';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import store from './redux/store';
 
 const theme = createTheme({
     transitions: {
@@ -32,15 +32,15 @@ const theme = createTheme({
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-    <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-    </ThemeProvider>,
+    <Provider store={store}>
+        <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <App />
+        </ThemeProvider>
+    </Provider>,
 );
 
 Neutralino.init();
-Settings.getInstance();
-SongManager.getInstance();
 
 function main() {
     // Neutralino.init();
@@ -51,11 +51,8 @@ function main() {
         'sampleExt',
     );
 
+    ExtensionLogger.add('js.nachotoast.fileserver', 'ALL', 'fileServer');
     ExtensionLogger.add('js.nachotoast.youtubesearch', 'ALL', 'ytsr');
-
-    // ExtensionLogger.addEvent('ytsr', 'youtubeSearchResult', (e) => console.log(e));
-    // ExtensionLogger.addEvent('ytsr', 'extensionError', (e) => console.log(e));
-    // ExtensionLogger.addEvent('ytsr', 'extensionLog', (e) => console.log(e));
 
     (window as unknown as { extTest: (value: string) => void }).extTest = (queryString: string) => {
         // const value = Math.random().toString(36).substring(2);

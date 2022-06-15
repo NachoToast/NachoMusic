@@ -7,10 +7,6 @@ import { ytsr } from './ytsr';
  * define 2 nearly-identical handlers for each event.
  */
 export interface CustomEvents {
-    testEvent: {
-        appHandler: (message: CustomEvent<[string]>) => void;
-        generalHandler: (message: string) => void;
-    };
     // general events
     extensionError: {
         appHandler: (error: CustomEvent<[{ id: string; message: string; stack: string; name: string }]>) => void;

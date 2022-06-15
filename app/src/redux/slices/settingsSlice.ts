@@ -4,7 +4,7 @@ import { Settings } from '../../typings/Settings';
 import { StoreState } from '../store';
 
 export interface State {
-    settings?: Settings;
+    data?: Settings;
 }
 
 export const initialState: State = {};
@@ -14,8 +14,8 @@ const settingsSlice = createSlice({
     initialState,
     reducers: {
         setSettings(state, action: { payload: Settings }) {
-            state.settings = action.payload;
-            FILES.SettingsFile.save(state.settings);
+            state.data = action.payload;
+            FILES.SettingsFile.save(state.data);
         },
     },
 });
@@ -23,6 +23,6 @@ const settingsSlice = createSlice({
 // eslint-disable-next-line no-empty-pattern
 export const { setSettings } = settingsSlice.actions;
 
-export const getSettings = (state: StoreState) => state.settings;
+export const getSettings = (state: StoreState) => state.settings.data;
 
 export default settingsSlice.reducer;

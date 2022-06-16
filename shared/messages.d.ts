@@ -1,4 +1,4 @@
-import { ytsr } from './ytsr';
+import { SearchRequest, SearchResponse } from './YouTube';
 
 /**
  * Custom user-defined events for communicating between app and extensions.
@@ -7,7 +7,7 @@ import { ytsr } from './ytsr';
  * define 2 nearly-identical handlers for each event.
  */
 export interface CustomEvents {
-    // general events
+    // general
     extensionError: {
         appHandler: (error: CustomEvent<[{ id: string; message: string; stack: string; name: string }]>) => void;
         generalHandler: (error: { id: string; message: string; stack: string; name: string }) => void;
@@ -16,18 +16,24 @@ export interface CustomEvents {
         appHandler: (log: CustomEvent<[{ id: string; message: unknown }]>) => void;
         generalHandler: (log: { id: string; message: unknown }) => void;
     };
-    // youtube search messages
+    // youtube search
     youtubeSearchQuery: {
-        appHandler: (query: CustomEvent<[{ queryString: string; limit: number }]>) => void;
-        generalHandler: (query: { queryString: string; limit: number }) => void;
+        appHandler: (query: CustomEvent<[SearchRequest]>) => void;
+        generalHandler: (query: SearchRequest) => void;
     };
     youtubeSearchResult: {
-        appHandler: (results: CustomEvent<[ytsr.Result]>) => void;
-        generalHandler: (results: ytsr.Result) => void;
+        appHandler: (results: CustomEvent<[SearchResponse]>) => void;
+        generalHandler: (results: SearchResponse) => void;
     };
-    // file server messages
+    // file server
     fileServerInfo: {
         appHandler: (port: CustomEvent<[number]>) => void;
         generalHandler: (port: number) => void;
     };
+    // youtube download
+    // youtubeDownloadStart: {
+    //     appHandler: (info: CustomEvent<[{ url: string; destination: string }]>) => void;
+    //     generalHandler: (info: { url: string; destination: string }) => void;
+    // };
+    // youtubeDownloadDone
 }

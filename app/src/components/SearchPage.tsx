@@ -12,9 +12,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import React, { useCallback, useEffect, useState } from 'react';
 import getSearchSuggestions from '../helpers/getSearchSuggestions';
 import { CustomEvents } from '../../../shared/messages';
-import { ytsr } from '../../../shared/ytsr';
 import SearchResult from './SearchResult';
 import { MAIN_EXTENSION } from '../typings/Main';
+import { SearchResponse } from '../../../shared/YouTube';
 
 enum SearchState {
     /** The user is actively editing their input, suggestions are being made dynamically. */
@@ -29,7 +29,7 @@ const SearchPage = () => {
     const [currentState, setCurrentState] = useState<SearchState>(SearchState.Suggesting);
 
     const [currentSearchTerm, setCurrentSearchTerm] = useState<string>('');
-    const [results, setResults] = useState<ytsr.Video[]>([]);
+    const [results, setResults] = useState<SearchResponse>([]);
     const [suggestions, setSuggestions] = useState<string[]>([]);
 
     /** Handles updates to the search term. */
@@ -71,7 +71,7 @@ const SearchPage = () => {
         const handleRes: CustomEvents['youtubeSearchResult']['appHandler'] = ({ detail }) => {
             if (currentState === SearchState.Suggesting) return;
             setCurrentState(SearchState.Results);
-            setResults(detail[0].items.filter(({ type }) => type === 'video') as ytsr.Video[]);
+            setResults(detail[0]);
         };
 
         Neutralino.events.on('youtubeSearchResult', handleRes);

@@ -1,13 +1,13 @@
 import { Button, Card, CardContent, CardMedia, Stack, Tooltip, Typography, Box } from '@mui/material';
-import { ytsr } from '../../../shared/ytsr';
 import DownloadIcon from '@mui/icons-material/Download';
 import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import AddLinkIcon from '@mui/icons-material/AddLink';
 import { viewCountFormatter } from '../helpers/viewCountFormatter';
 import channelBadgesMap from '../helpers/channelBadgesMap';
 import { useCallback, useEffect, useState } from 'react';
+import { SearchedYouTubeVideo } from '../../../shared/YouTube';
 
-const SearchResult = ({ result }: { result: ytsr.Video }) => {
+const SearchResult = ({ result }: { result: SearchedYouTubeVideo }) => {
     const [copied, setCopied] = useState<boolean>(false);
     const handleCopyLink = useCallback(() => {
         setCopied(true);

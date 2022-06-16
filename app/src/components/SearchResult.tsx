@@ -20,6 +20,8 @@ import { SearchedYouTubeVideo } from '../../../shared/YouTube';
 import { MAIN_EXTENSION } from '../typings/Main';
 import FileSystemHelper from '../classes/FileSystemHelper';
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
+import { useDispatch, useSelector } from 'react-redux';
+import { addSongs, getDownloadedSongs } from '../redux/slices/songsSlice';
 
 enum DownloadStatus {
     Able,
@@ -28,28 +30,37 @@ enum DownloadStatus {
 }
 
 const SearchResult = ({ result }: { result: SearchedYouTubeVideo }) => {
-    const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>(DownloadStatus.Able);
+    const dispatch = useDispatch();
+    const songs = useSelector(getDownloadedSongs);
+    const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>(
+        songs?.items && songs.items[result.id] !== undefined ? DownloadStatus.Done : DownloadStatus.Able,
+    );
+    const [progress, setProgress] = useState<number>(0);
 
     useEffect(() => {
-        if (!false) {
-            const handleStarted: CustomEvents['youtubeDownloadStart']['appHandler'] = ({ detail: [req] }) => {
-                console.log('got started event', req.url === result.url);
-                if (req.url === result.url) setDownloadStatus(DownloadStatus.InProgress);
+        if (downloadStatus === DownloadStatus.InProgress) {
+            const handleProgress: CustomEvents['youtubeDownloadProgress']['appHandler'] = ({ detail: [progress] }) => {
+                const { done, total, url } = progress;
+                if (url === result.url) {
+                    setProgress(Math.floor((100 * done) / total));
+                }
             };
 
             const handleFinished: CustomEvents['youtubeDownloadDone']['appHandler'] = ({ detail: [res] }) => {
-                console.log('got finished event', res.url === result.url);
-                if (res.url === result.url) setDownloadStatus(DownloadStatus.Done);
+                if (res.url === result.url) {
+                    dispatch(addSongs([res]));
+                    setDownloadStatus(DownloadStatus.Done);
+                }
             };
 
             Neutralino.events.on('youtubeDownloadDone', handleFinished);
-            Neutralino.events.on('youtubeDownloadStart', handleStarted);
+            Neutralino.events.on('youtubeDownloadProgress', handleProgress);
             return () => {
                 Neutralino.events.off('youtubeDownloadDone', handleFinished);
-                Neutralino.events.off('youtubeDownloadStart', handleStarted);
+                Neutralino.events.off('youtubeDownloadProgress', handleProgress);
             };
         }
-    }, [downloadStatus, result.url]);
+    }, [dispatch, downloadStatus, result.url]);
 
     const [copied, setCopied] = useState<boolean>(false);
 
@@ -74,11 +85,9 @@ const SearchResult = ({ result }: { result: SearchedYouTubeVideo }) => {
         setDownloadStatus(DownloadStatus.InProgress);
         Neutralino.extensions.dispatch(MAIN_EXTENSION, 'youtubeDownloadStart', {
             url: result.url,
-            destinationPath: `${await FileSystemHelper.getMusicPath()}/NachoMusic/downloads/${result.id}-${
-                result.title
-            }.mp3`,
+            destinationPath: `${await FileSystemHelper.getMusicPath()}/NachoMusic/downloads/${result.id}`,
         });
-    }, [downloadStatus, result.id, result.title, result.url]);
+    }, [downloadStatus, result.id, result.url]);
 
     return (
         <Card sx={{ display: 'flex', alignItems: 'stretch', height: 150 }}>
@@ -144,7 +153,12 @@ const SearchResult = ({ result }: { result: SearchedYouTubeVideo }) => {
                                     ) : downloadStatus === DownloadStatus.Done ? (
                                         <DownloadDoneIcon color="success" />
                                     ) : (
-                                        <CircularProgress sx={{ mb: -1.5 }} size={20} style={{ color: 'gray' }} />
+                                        <CircularProgress
+                                            variant={progress !== 0 ? 'determinate' : 'indeterminate'}
+                                            value={progress}
+                                            sx={{ mb: -1.5 }}
+                                            size={20}
+                                        />
                                     )}
                                 </Button>
                             </span>

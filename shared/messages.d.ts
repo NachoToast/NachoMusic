@@ -39,4 +39,8 @@ export interface CustomEvents {
         appHandler: (info: CustomEvent<[DownloadResponse]>) => void;
         generalHandler: (info: DownloadResponse) => void;
     };
+    youtubeDownloadProgress: {
+        appHandler: (progress: CustomEvent<[{ done: number; total: number; chunk: number; url: string }]>) => void;
+        generalHandler: (progress: { done: number; total: number; chunk: number; url: string }) => void;
+    };
 }

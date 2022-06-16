@@ -20,7 +20,6 @@ const settingsSlice = createSlice({
     },
 });
 
-// eslint-disable-next-line no-empty-pattern
 export const { setSettings } = settingsSlice.actions;
 
 export const getSettings = (state: StoreState) => state.settings.data;

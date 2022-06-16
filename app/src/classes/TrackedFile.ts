@@ -1,3 +1,4 @@
+import { DefaultDownloadedSongs, DownloadedSongs } from '../typings/DownloadedSongs';
 import { DefaultSettings, Settings } from '../typings/Settings';
 import FileSystemHelper from './FileSystemHelper';
 
@@ -54,8 +55,9 @@ const SettingsFile = new TrackedFile<Settings>('%MUSIC_PATH%/NachoMusic/settings
 const PlaylistsFile = new TrackedFile<{ playlists: true }>('%MUSIC_PATH%/NachoMusic/playlists.json', {
     playlists: true,
 });
-const DownloadedSongsFile = new TrackedFile<{ songs: true }>('%MUSIC_PATH%/NachoMusic/downloadedSongs.json', {
-    songs: true,
-});
+const DownloadedSongsFile = new TrackedFile<DownloadedSongs>(
+    '%MUSIC_PATH%/NachoMusic/downloadedSongs.json',
+    DefaultDownloadedSongs,
+);
 
 export const FILES = { SettingsFile, PlaylistsFile, DownloadedSongsFile };

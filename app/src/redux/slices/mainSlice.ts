@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { StoreState } from '../store';
 
 export interface State {
+    /** Port of the static file server. */
     port: number | null;
 }
 

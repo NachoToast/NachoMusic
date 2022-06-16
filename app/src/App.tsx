@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { setPort } from './redux/slices/mainSlice';
 import { FILES } from './classes/TrackedFile';
 import { setSettings } from './redux/slices/settingsSlice';
+import { setDownloads } from './redux/slices/songsSlice';
 
 function App() {
     const dispatch = useDispatch();
@@ -30,6 +31,11 @@ function App() {
     // load settings
     useEffect(() => {
         FILES.SettingsFile.load().then((e) => dispatch(setSettings(e)));
+    }, [dispatch]);
+
+    // load songs
+    useEffect(() => {
+        FILES.DownloadedSongsFile.load().then((e) => dispatch(setDownloads(e)));
     }, [dispatch]);
 
     return (

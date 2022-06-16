@@ -9,6 +9,17 @@ interface Image {
     height: number;
 }
 
+export interface StoredYoutubeVideo {
+    url: string;
+    id: string;
+    title: string;
+    artist: string;
+    /** Duration in seconds. */
+    duration: number;
+    dateDownloaded: number;
+    thumbnail: string | null;
+}
+
 export interface SearchedYouTubeVideo {
     title: string;
     id: string;
@@ -39,6 +50,4 @@ export interface DownloadRequest {
     // options coming soon
 }
 
-export interface DownloadResponse {
-    url: string;
-}
+export type DownloadResponse = StoredYoutubeVideo;

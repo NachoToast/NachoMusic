@@ -1,7 +1,9 @@
+import { StoredYoutubeVideo } from '../../../shared/YouTube';
+
 export interface DownloadedSongs {
-    songsLocation: string;
+    items: Record<string, StoredYoutubeVideo>;
 }
 
 export const DefaultDownloadedSongs: DownloadedSongs = {
-    songsLocation: '%MUSIC_PATH%/NachoMusic/downloads',
+    items: {},
 };

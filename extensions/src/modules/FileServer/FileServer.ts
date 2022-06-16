@@ -57,7 +57,7 @@ export class FileServer {
             case '.mp4':
                 return 'video/mp4';
             case '.mp3':
-                return 'audio.mpeg';
+                return 'audio/mpeg';
             default:
                 return 'application/octet-stream';
         }

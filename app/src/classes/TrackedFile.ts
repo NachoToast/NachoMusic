@@ -1,4 +1,5 @@
 import { DefaultSettings, Settings } from '../typings/Settings';
+import FileSystemHelper from './FileSystemHelper';
 
 /**
  * A JSON file that is being used by NachoMusic to store data.
@@ -18,19 +19,11 @@ export class TrackedFile<T = object> {
         this.defaultValue = defaultValue;
     }
 
-    /** Path to music folder, reused in multiple instance methods so tracked to prevent unnecessary awaiting. */
-    private static MusicPath?: string;
-    private static async getMusicPath(): Promise<string> {
-        if (TrackedFile.MusicPath !== undefined) return TrackedFile.MusicPath;
-        TrackedFile.MusicPath = await Neutralino.os.getPath('music');
-        return TrackedFile.MusicPath;
-    }
-
     /** Saves data to file. */
     public async save(data: T): Promise<void> {
         let actualPath = this.path;
         if (this.path.includes('%MUSIC_PATH%')) {
-            actualPath = actualPath.replaceAll(/%MUSIC_PATH%/g, await TrackedFile.getMusicPath());
+            actualPath = actualPath.replaceAll(/%MUSIC_PATH%/g, await FileSystemHelper.getMusicPath());
         }
 
         await Neutralino.filesystem.writeFile(actualPath, JSON.stringify(data, undefined, 4));
@@ -39,10 +32,11 @@ export class TrackedFile<T = object> {
     /** Loads data from file, this should only be done once. */
     public async load(): Promise<T> {
         if (this._loaded) throw new Error(`Tried to load file twice: '${this.path}'`);
+        await FileSystemHelper.validateFolders();
 
         let actualPath = this.path;
         if (this.path.includes('%MUSIC_PATH%')) {
-            const musicPath = await TrackedFile.getMusicPath();
+            const musicPath = await FileSystemHelper.getMusicPath();
             actualPath = actualPath.replaceAll(/%MUSIC_PATH%/g, musicPath);
         }
 
@@ -60,8 +54,8 @@ const SettingsFile = new TrackedFile<Settings>('%MUSIC_PATH%/NachoMusic/settings
 const PlaylistsFile = new TrackedFile<{ playlists: true }>('%MUSIC_PATH%/NachoMusic/playlists.json', {
     playlists: true,
 });
-const SongsFile = new TrackedFile<{ songs: true }>('%MUSIC_PATH%/NachoMusic/songs.json', {
+const DownloadedSongsFile = new TrackedFile<{ songs: true }>('%MUSIC_PATH%/NachoMusic/downloadedSongs.json', {
     songs: true,
 });
 
-export const FILES = { SettingsFile, PlaylistsFile, SongsFile };
+export const FILES = { SettingsFile, PlaylistsFile, DownloadedSongsFile };

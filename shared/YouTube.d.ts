@@ -34,14 +34,11 @@ export interface SearchedYouTubeVideo {
 export type SearchResponse = SearchedYouTubeVideo[];
 
 export interface DownloadRequest {
-    /** UUID */
-    requestId: string;
     url: string;
     destinationPath: string;
     // options coming soon
 }
 
 export interface DownloadResponse {
-    /** UUID */
-    requestId: string;
+    url: string;
 }

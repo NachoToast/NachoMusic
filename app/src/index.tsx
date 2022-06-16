@@ -29,6 +29,7 @@ const theme = createTheme({
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
     <Provider store={store}>
         <ThemeProvider theme={theme}>
@@ -37,5 +38,17 @@ root.render(
         </ThemeProvider>
     </Provider>,
 );
+
+Neutralino.events.on('extensionLog', ({ detail }) => {
+    console.log(`[${detail[0].id}]`, detail[0].message);
+});
+
+Neutralino.events.on('extensionError', ({ detail }) => {
+    console.error(detail[0].id, detail[0].name, detail[0].message, detail[0].stack);
+});
+
+Neutralino.events.on('extensionReady', ({ detail }) => {
+    console.log(`${detail} ready`);
+});
 
 Neutralino.init();

@@ -48,9 +48,7 @@ yarn install:ext
 yarn build:app
 yarn build:ext
 
-
-yarn update
-yarn start
+yarn neu run
 ```
 
 You may get a `Neutralino is not defined` error on initial startup, simply reload the app using `F5` or `CTRL + R` to fix this.
@@ -91,8 +89,11 @@ yarn update
 yarn install:app
 yarn install:ext
 
-# Start app process
+# Start app process in development mode
 yarn start
+
+# Start app process in production mode
+yarn neu start
 
 # Testing using Jest
 yarn test:app

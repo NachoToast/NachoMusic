@@ -1,4 +1,4 @@
-import { createWriteStream, writeFileSync } from 'fs';
+import { createWriteStream, statSync, writeFileSync } from 'fs';
 import { request } from 'https';
 import { extname } from 'path';
 import { Stream } from 'stream';
@@ -77,13 +77,16 @@ export class YouTubeDownloader {
 
             const video = info.items[0] as Video;
 
-            let thumbnail: string | null = null;
+            let thumbnail: { extension: string; size: number } | null = null;
             if (video.bestThumbnail.url !== null) {
                 const thumbnailType = extname(new URL(video.bestThumbnail.url).pathname);
                 if (await this.downloadThumbnail(video.bestThumbnail.url, `${destinationPath}${thumbnailType}`)) {
-                    thumbnail = thumbnailType;
+                    const { size } = statSync(`${destinationPath}${thumbnailType}`);
+                    thumbnail = { extension: thumbnailType, size };
                 }
             }
+
+            const { size } = statSync(`${destinationPath}.mp4`);
 
             this._socket.send('youtubeDownloadDone', {
                 url,
@@ -93,6 +96,7 @@ export class YouTubeDownloader {
                 duration: stringToNumerical(video.duration || '0:00'),
                 dateDownloaded: Date.now(),
                 thumbnail,
+                size,
             });
         } catch (error) {
             this._socket.handleError(error instanceof Error ? error : new Error(`Error downloading ${query.url}`));

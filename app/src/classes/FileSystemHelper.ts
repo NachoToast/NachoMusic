@@ -1,5 +1,6 @@
-/** Stores OS music path (see {@link Neutralino.os.getPath}) and validates subfolders. */
+/** Path storing and subfolder validation. */
 class FileSystemHelper {
+    /** OS music path (see {@link Neutralino.os.getPath}), e.g. `C:/Users/Joe/Music` */
     private _musicPath?: string;
 
     public async getMusicPath(): Promise<string> {
@@ -27,6 +28,20 @@ class FileSystemHelper {
         try {
             await Neutralino.filesystem.createDirectory(`${musicPath}/NachoMusic/downloads`);
         } catch (error) {}
+    }
+
+    /** Removes the drive (`C:/`) on Windows paths.
+     *
+     * Useful for querying fileserver.
+     */
+    public convertPath(fullPath: string): string {
+        const colonIndex = fullPath.indexOf(':');
+        if (colonIndex === -1) {
+            // not Windows
+            return fullPath;
+        }
+
+        return fullPath.slice(colonIndex + 1);
     }
 }
 

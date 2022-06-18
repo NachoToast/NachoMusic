@@ -17,7 +17,8 @@ export interface StoredYoutubeVideo {
     /** Duration in seconds. */
     duration: number;
     dateDownloaded: number;
-    thumbnail: string | null;
+    thumbnail: { extension: string; size: number } | null;
+    size: number;
 }
 
 export interface SearchedYouTubeVideo {

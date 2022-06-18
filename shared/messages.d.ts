@@ -1,4 +1,4 @@
-import { SearchRequest, SearchResponse } from './YouTube';
+import { DownloadRequest, DownloadResponse, SearchRequest, SearchResponse } from './YouTube';
 
 /**
  * Custom user-defined events for communicating between app and extensions.
@@ -31,9 +31,16 @@ export interface CustomEvents {
         generalHandler: (port: number) => void;
     };
     // youtube download
-    // youtubeDownloadStart: {
-    //     appHandler: (info: CustomEvent<[{ url: string; destination: string }]>) => void;
-    //     generalHandler: (info: { url: string; destination: string }) => void;
-    // };
-    // youtubeDownloadDone
+    youtubeDownloadStart: {
+        appHandler: (info: CustomEvent<[DownloadRequest]>) => void;
+        generalHandler: (info: DownloadRequest) => void;
+    };
+    youtubeDownloadDone: {
+        appHandler: (info: CustomEvent<[DownloadResponse]>) => void;
+        generalHandler: (info: DownloadResponse) => void;
+    };
+    youtubeDownloadProgress: {
+        appHandler: (progress: CustomEvent<[{ done: number; total: number; chunk: number; url: string }]>) => void;
+        generalHandler: (progress: { done: number; total: number; chunk: number; url: string }) => void;
+    };
 }

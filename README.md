@@ -34,6 +34,8 @@ First make sure you have the following dependencies:
 
 -   [Yarn](https://yarnpkg.com/), you can still use npm if necessary but some scripts will not work.
 
+Note that currently NachoMusic will only work if you install it to you main drive (i.e. `C:\` on Windows).
+
 Everything after this can be done in a terminal:
 
 ```sh

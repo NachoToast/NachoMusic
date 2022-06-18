@@ -6,7 +6,7 @@ package-lock.json
 dist/
 
 # Neutralinojs (minified) client 
-neutralino.js
+# neutralino.js
 
 # Compiled
 app/build/

@@ -1,10 +1,9 @@
 import React from 'react';
 import { CircularProgress, Container, Paper, Stack, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { getSettings } from '../redux/slices/settingsSlice';
+import useSettings from '../hooks/useSettings';
 
 const SettingsPage = () => {
-    const settings = useSelector(getSettings);
+    const settings = useSettings();
 
     if (settings === undefined) {
         return (

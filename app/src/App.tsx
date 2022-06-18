@@ -7,8 +7,6 @@ import SettingsPage from './components/SettingsPage';
 import Navbar from './components/Navbar';
 import { useDispatch } from 'react-redux';
 import { setPort } from './redux/slices/mainSlice';
-import { FILES } from './classes/TrackedFile';
-import { setSettings } from './redux/slices/settingsSlice';
 
 function App() {
     const dispatch = useDispatch();
@@ -28,9 +26,14 @@ function App() {
     }, [dispatch]);
 
     // load settings
-    useEffect(() => {
-        FILES.SettingsFile.load().then((e) => dispatch(setSettings(e)));
-    }, [dispatch]);
+    // useEffect(() => {
+    //     FILES.SettingsFile.load().then((e) => dispatch(setSettings(e)));
+    // }, [dispatch]);
+
+    // load songs
+    // useEffect(() => {
+    //     FILES.DownloadedSongsFile.load().then((e) => dispatch(setDownloads(e)));
+    // }, [dispatch]);
 
     return (
         <BrowserRouter>

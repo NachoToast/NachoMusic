@@ -1,24 +1,27 @@
 import React from 'react';
 import { CircularProgress } from '@mui/material';
-import { useSelector } from 'react-redux';
-import { getPort } from '../redux/slices/mainSlice';
+import useDownloadedSongs from '../hooks/useDownloadedSongs';
 
 const SongsPage = () => {
-    const port = useSelector(getPort);
+    const { songs } = useDownloadedSongs();
+
+    if (songs === undefined) {
+        return (
+            <div>
+                <CircularProgress />
+            </div>
+        );
+    }
 
     return (
         <div>
-            songs
-            {port !== null ? (
-                <video controls>
-                    <source
-                        type="video/mp4"
-                        src={`http://localhost:${port}/Users/fuzzy/Music/NachoMusic/Alan Walker - Faded.mp4`}
-                    />
-                </video>
-            ) : (
-                <CircularProgress />
-            )}
+            {Object.values(songs.items).map((e) => (
+                <div key={e.id}>
+                    <p>
+                        {e.title} ({e.id})
+                    </p>
+                </div>
+            ))}
         </div>
     );
 };

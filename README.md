@@ -95,7 +95,7 @@ yarn install:ext
 yarn start
 
 # Start app process in production mode
-yarn neu start
+yarn neu run
 
 # Testing using Jest
 yarn test:app

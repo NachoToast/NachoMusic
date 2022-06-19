@@ -1,6 +1,7 @@
 import React from 'react';
-import { CircularProgress } from '@mui/material';
-import useDownloadedSongs from '../hooks/useDownloadedSongs';
+import { CircularProgress, Grid } from '@mui/material';
+import useDownloadedSongs from '../../hooks/useDownloadedSongs';
+import Tile from './Tile';
 
 const SongsPage = () => {
     const { songs } = useDownloadedSongs();
@@ -14,15 +15,11 @@ const SongsPage = () => {
     }
 
     return (
-        <div>
+        <Grid container spacing={1} sx={{ p: 1 }}>
             {Object.values(songs.items).map((e) => (
-                <div key={e.id}>
-                    <p>
-                        {e.title} ({e.id})
-                    </p>
-                </div>
+                <Tile key={e.id} song={e} />
             ))}
-        </div>
+        </Grid>
     );
 };
 

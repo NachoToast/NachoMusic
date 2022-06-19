@@ -7,6 +7,7 @@ import {
     TextField,
     Box,
     Container,
+    Button,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -15,6 +16,7 @@ import { CustomEvents } from '../../../shared/messages';
 import SearchResult from './SearchResult';
 import { MAIN_EXTENSION } from '../typings/Main';
 import { SearchResponse } from '../../../shared/YouTube';
+import SpotifyHelper from '../classes/SpotifyHelper';
 
 enum SearchState {
     /** The user is actively editing their input, suggestions are being made dynamically. */
@@ -91,6 +93,7 @@ const SearchPage = () => {
                 sx={{ pt: 5, width: '80%' }}
                 onSubmit={handleSubmit}
             >
+                <Button onClick={() => SpotifyHelper.login()}>login to spotify</Button>
                 <TextField
                     id="searchInput"
                     variant="outlined"

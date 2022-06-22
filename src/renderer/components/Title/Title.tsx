@@ -1,8 +1,11 @@
 import { Fade, Grow, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { setVideoURL } from '../../redux/slices/main.slice';
 
 const Title = () => {
     const [fade, setFade] = useState(-1);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         if (fade < 4) {
@@ -15,10 +18,6 @@ const Title = () => {
             };
         }
     }, [fade]);
-
-    useEffect(() => {
-        console.log(window.api);
-    }, []);
 
     return fade < 4 ? (
         <Grow in={fade < 3}>

@@ -35,13 +35,13 @@
             "minHeight": 400,
             "fullScreen": false,
             "alwaysOnTop": false,
-            "icon": "/app/public/logo200.png",
+            "icon": "/app/public/logo192.png",
             "enableInspector": true,
             "borderless": false,
             "maximize": false,
             "hidden": false,
             "resizable": true,
-            "exitProcessOnClose": false
+            "exitProcessOnClose": true
         }
     },
     "cli": {

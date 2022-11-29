@@ -15,10 +15,13 @@
         "start": "neu run --frontend-lib-dev",
         "update": "neu update",
         "build:app": "cd app && pnpm build",
-        "build:ext": "cd extensions && pnpm build",
-        "package": "pnpm build:app && pnpm build:ext && neu build"
+        "build:ext": "cd extensions && yarn build",
+        "package": "ts-node extensions/scripts/prePackage.ts && pnpm build:app && pnpm build:ext && neu build && ts-node dist/NachoMusic/extensions/scripts/postPackage.ts"
     },
     "dependencies": {
         "@neutralinojs/neu": "^9.3.1"
+    },
+    "devDependencies": {
+        "ts-node": "^10.9.1"
     }
 }

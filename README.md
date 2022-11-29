@@ -113,8 +113,14 @@ App and extensions communicate via websockets.
 
 -   Why are you using a different package manager (yarn) for extensions?
 
-Since pnpm uses symlinks, Neutralino runs into permission issues when packaging extension dependencies.
+    -   Since pnpm uses symlinks, Neutralino runs into permission issues when packaging extension dependencies.
 
 -   Why is the restore index script in the extensions directory?
 
-Because the linting and Typescript environments there are Node, not browser.
+    -   Because the linting and Typescript environments there are Node, not browser.
+
+-   Why do you do `git update-index` on install?
+
+    -   In development Neutralino will change the `%PUBLIC_URL%` to the port it is running on. That shouldn't be tracked in git.
+
+    -   You can undo it using `git update-index --no-assume-unchanged app/public/index.html`

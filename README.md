@@ -106,3 +106,13 @@ App and extensions communicate via websockets.
     -   `lint` Lints source files.
     -   `typecheck` Typechecks source files.
     -   `check-all` Does linting and typechecking.
+
+# FAQ
+
+-   Why are you using a different package manager (yarn) for extensions?
+
+Since pnpm uses symlinks, Neutralino runs into permission issues when packaging extension dependencies.
+
+-   Why is the restore index script in the extensions directory?
+
+Because the linting and Typescript environments there are Node, not browser.

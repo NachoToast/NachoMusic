@@ -12,9 +12,10 @@
         "url": "https://github.com/NachoToast/NachoMusic.git"
     },
     "scripts": {
-        "start": "neu run --frontend-lib-dev",
+        "start": "pnpm restoreIndex && neu run --frontend-lib-dev",
+        "restoreIndex": "ts-node extensions/scripts/restoreIndex.ts",
         "update": "neu update",
-        "build:app": "cd app && pnpm build",
+        "build:app": "pnpm restoreIndex && cd app && pnpm build",
         "build:ext": "cd extensions && yarn build",
         "package": "ts-node extensions/scripts/prePackage.ts && pnpm build:app && pnpm build:ext && neu build && ts-node dist/NachoMusic/extensions/scripts/postPackage.ts"
     },

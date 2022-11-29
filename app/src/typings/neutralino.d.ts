@@ -1,4 +1,4 @@
-declare type CustomEvents = import('../../../shared/messages').CustomEvents;
+declare type CustomEvents = import('../../../shared/CustomEvents').CustomEvents;
 
 // https://neutralino.js.org/docs/api/global-variables
 

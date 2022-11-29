@@ -1,0 +1,65 @@
+{
+    "applicationId": "js.nachotoast.nachomusic",
+    "version": "0.1.0",
+    "defaultMode": "window",
+    "port": 0,
+    "documentRoot": "/app/build/",
+    "url": "/",
+    "enableServer": true,
+    "enableNativeAPI": true,
+    "enableExtensions": true,
+    "tokenSecurity": "none",
+    "logging": {
+        "enabled": true,
+        "writeToLogFile": false
+    },
+    "nativeAllowList": [
+        "app.*",
+        "clipboard.*",
+        "computer.*",
+        "debug.*",
+        "events.*",
+        "extensions.*",
+        "filesystem.*",
+        "os.*",
+        "storage.*",
+        "updater.*",
+        "window.*"
+    ],
+    "modes": {
+        "window": {
+            "title": "Nacho Music",
+            "width": 1200,
+            "height": 800,
+            "minWidth": 400,
+            "minHeight": 400,
+            "fullScreen": false,
+            "alwaysOnTop": false,
+            "icon": "/app/public/logo200.png",
+            "enableInspector": true,
+            "borderless": false,
+            "maximize": false,
+            "hidden": false,
+            "resizable": true,
+            "exitProcessOnClose": false
+        }
+    },
+    "cli": {
+        "binaryName": "NachoMusic",
+        "resourcesPath": "/app/build/",
+        "extensionsPath": "/extensions/",
+        "clientLibrary": "app/public/neutralino.js",
+        "binaryVersion": "4.9.0",
+        "clientVersion": "3.8.0",
+        "frontendLibrary": {
+            "patchFile": "/app/public/index.html",
+            "devUrl": "http://localhost:3000"
+        }
+    },
+    "extensions": [
+        {
+            "id": "js.nachotoast.main_extension",
+            "command": "node extensions/build/index.js"
+        }
+    ]
+}

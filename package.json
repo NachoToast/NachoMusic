@@ -1,0 +1,24 @@
+{
+    "name": "nacho-music",
+    "version": "1.0.0",
+    "private": true,
+    "license": "MIT",
+    "author": {
+        "name": "NachoToast",
+        "url": "https://github.com/NachoToast"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/NachoToast/NachoMusic.git"
+    },
+    "scripts": {
+        "start": "neu run --frontend-lib-dev",
+        "update": "neu update",
+        "build:app": "cd app && pnpm build",
+        "build:ext": "cd extensions && pnpm build",
+        "package": "pnpm build:app && pnpm build:ext && neu build"
+    },
+    "dependencies": {
+        "@neutralinojs/neu": "^9.3.1"
+    }
+}

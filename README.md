@@ -22,6 +22,8 @@ A lightweight music streaming application.
 
 ###### Helpful error messages ;)
 
+![image](https://user-images.githubusercontent.com/32235595/204657140-5069df9e-d215-4ee8-93c2-701711a0f778.png)
+
 </details>
 
 # Installation Guide

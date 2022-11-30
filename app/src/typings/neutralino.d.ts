@@ -1337,13 +1337,60 @@ declare namespace Neutralino {
         function open(url: string): Promise<BaseResponse>;
     }
 
-    /** {@link https://neutralino.js.org/docs/api/storage API Reference} */
+    /**
+     * Neutralino has built-in key-value storage, global like {@link https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage LocalStorage} for all Neutralinojs modes.
+     *
+     * Exposes methods for interacting with this storage feature.
+     *
+     * {@link https://neutralino.js.org/docs/api/storage API Reference}
+     *
+     * @version 3.8.0
+     */
     namespace storage {
-        // TODO: typing for custom data keys and payloads
+        /**
+         * Writes data into Neutralinojs shared storage.
+         * @param {string} key A unique idenfitier.
+         * @param {string|null} [data] Data as a string. If omitted or null or undefined,
+         * the specified data record will be erased from the disk.
+         *
+         * {@link https://neutralino.js.org/docs/api/storage#storagesetdatakey-data API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.storage.setData('userDetails', JSON.stringify({ username: 'TestValue'}));
+         * ```
+         */
+        function setData(key: string, data?: string | null): Promise<BaseResponse>;
 
-        function setData(key: string, data: string): Promise<void>;
-
+        /**
+         * Reads and returns data for a given Neutralinojs shared storage key.
+         * @param {string} key Storage data record identifier.
+         * @throws Throws `NE_ST_NOSTKEX` if the provided key doesn't exist.
+         *
+         * {@link https://neutralino.js.org/docs/api/storage#storagegetdatakey API Reference}
+         *
+         * @example
+         * ```ts
+         * let data = await Neutralino.storage.getData('userDetails');
+         * console.log(`Data: ${data}`);
+         * ```
+         */
         function getData(key: string): Promise<string>;
+
+        /**
+         * Returns all storage keys.
+         * @throws Throws `NE_ST_NOSTDIR` if unable to read the storage directory
+         * (for example when no keys have yet been set).
+         *
+         * {@link https://neutralino.js.org/docs/api/storage#storagegetkeys API Reference}
+         *
+         * @example
+         * ```ts
+         * let keys = await Neutralino.storage.getKeys();
+         * console.log('Keys: ', keys);
+         * ```
+         */
+        function getKeys(): Promise<string[]>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/updater API Reference} */

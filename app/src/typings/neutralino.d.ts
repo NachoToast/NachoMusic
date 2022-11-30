@@ -572,54 +572,347 @@ declare namespace Neutralino {
      *
      * {@link https://neutralino.js.org/docs/api/filesystem API Reference}
      *
-     * TODO: Proper documentation for this.
+     * @version 3.8.0
      */
     namespace filesystem {
+        /**
+         * Creates a new directory.
+         * @param {string} path New directory path.
+         * @throws Throws `NE_FS_DIRCRER` if directory creation is not possible.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemcreatedirectorypath API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.createDirectory('./newDirectory');
+         * ```
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.createDirectory(NL_PATH + '/myFolder');
+         * ```
+         */
         function createDirectory(path: string): Promise<BaseResponse>;
 
+        /**
+         * Removes a given directory.
+         * @param {string} path Directory path.
+         * @throws Throws `NE_FS_RMDIRER` if the removal is not possible.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemremovedirectorypath API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.removeDirectory('./tmpDirectory');
+         * ```
+         */
         function removeDirectory(path: string): Promise<BaseResponse>;
 
+        /**
+         * Writes a text file.
+         * @param {string} filename Filename.
+         * @param {string} data Content of the file.
+         * @throws Throws `NE_FS_FILWRER` for file write errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemwritefilefilename-data API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.writeFile('./myFile.txt', 'Sample content');
+         * ```
+         */
         function writeFile(filename: string, data: string): Promise<BaseResponse>;
 
+        /**
+         * Appends text content to file. If the file doesn't exist, will create a new one.
+         * @param {string} filename Filename.
+         * @param {string} data Content to append.
+         * @throws Throws `NE_FS_FILWRER` for file write errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemappendfilefilename-data API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.appendFile('./myFile.txt', 'Sample ');
+         * await Neutralino.filesystem.appendFile('./myFile.txt', 'content');
+         * ```
+         */
         function appendFile(filename: string, data: string): Promise<BaseResponse>;
 
+        /**
+         * Writes a binary file.
+         * @param {string} filename Filename.
+         * @param {ArrayBuffer} data Content of the binary file as an {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer ArrayBuffer}.
+         * @throws Throws `NE_FS_FILWRER` for file write errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemwritebinaryfilefilename-data API Reference}
+         *
+         * @example
+         * ```ts
+         * let rawBin = new ArrayBuffer(1);
+         * let view = new Uint8Array(rawBin);
+         * view[0] = 64; // Saves ASCII '@' to the binary file
+         *
+         * await Neutralino.filesystem.writeBinaryFile('./myFile.bin', rawBin);
+         * ```
+         */
         function writeBinaryFile(filename: string, data: ArrayBuffer): Promise<BaseResponse>;
 
+        /**
+         * Appends binary data to a file. If the provided file doesn't exist, will create a new one.
+         * @param {string} filename Filename.
+         * @param {ArrayBuffer} data Binary content to append as an {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer ArrayBuffer}.
+         * @throws Throws `NE_FS_FILWRER` for file write errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemappendbinaryfilefilename-data API Reference}
+         *
+         * @example
+         * ```ts
+         * let rawBin = new ArrayBuffer(1);
+         * let view = new Uint8Array(rawBin);
+         * view[0] = 64; // Saves ASCII '@' to the binary file
+         *
+         * await Neutralino.filesystem.appendBinaryFile('./myFile.bin', rawBin);
+         * await Neutralino.filesystem.appendBinaryFile('./myFile.bin', rawBin);
+         * ```
+         */
         function appendBinaryFile(filename: string, data: ArrayBuffer): Promise<BaseResponse>;
 
-        function readFile(filename: string): Promise<string>;
+        interface ReadOptions {
+            /** File cursor position in bytes. */
+            pos?: number;
+            /** File reader buffer size in bytes. */
+            size: number;
+        }
 
-        function readBinaryFile(filename: string): Promise<ArrayBuffer>;
+        /**
+         * Reads a text file.
+         * @param {string} filename Filename.
+         * @param {object} [options] Additional read options.
+         * @throws Throws `NE_FS_FILRDER` for file read errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemreadfilefilename API Reference}
+         *
+         * @example
+         * ```ts
+         * let data = await Neutralino.filesystem.readFile('./myFile.txt');
+         * console.log(`Content: ${data}`);
+         * ```
+         *
+         * @example
+         * ```ts
+         * let data = await Neutralino.filesystem.readFile('./myFile.txt', {
+         *     pos: 2,
+         *     size: 10
+         * });
+         * console.log(`Content: ${data}`);
+         * ```
+         */
+        function readFile(filename: string, options?: ReadOptions): Promise<string>;
 
+        /**
+         * Reads a binary file.
+         * @param {string} filename Filename.
+         * @param {object} [options] Additional read options.
+         * @throws Throws `NE_FS_FILRDER` for file read errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemreadbinaryfilefilename API Reference}
+         *
+         * @example
+         * ```ts
+         * let data = await Neutralino.filesystem.readBinaryFile({
+         * fileName: './myFile.bin'
+         * });
+         * let view = new Uint8Array(data);
+         *
+         * console.log('Binary content: ', view);
+         * ```
+         */
+        function readBinaryFile(filename: string, options?: ReadOptions): Promise<ArrayBuffer>;
+
+        /**
+         * Creates a readable file stream.
+         * @param {string} filename Filename.
+         * @throws Throws `NE_FS_FILOPER` for file open errors.
+         * @returns {number} File stream identifier.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemopenfilefilename API Reference}
+         *
+         * @example
+         * ```ts
+         * let fileId = await Neutralino.filesystem.openFile('./myFile.txt');
+         * console.log(`ID: ${fileId}`);
+         * ```
+         */
+        function openFile(filename: string): Promise<number>;
+
+        /**
+         * Invokes file stream actions. Call this method to read and seek an opened file (aka a readable stream).
+         * @param {number} id File stream identifier.
+         * @param {'read'|'readAll'|'seek'} action An action to take, can be:
+         * - `read` Reads a bytes segment from the file steam.
+         * - `readAll` Triggers the `read` action until file stream cursor position reaches {@link https://en.wikipedia.org/wiki/End-of-file EOF}.
+         * - `seek` Sets the file cursor position.
+         * @param {number} [data] Additional data for the action.
+         * - If the action is `read` or `readAll`, this is the buffer size in bytes, and defaults to 256.
+         * - If the action is `seek` this, this is the file stram cursor position.
+         * @throws Throws `NE_FS_UNLTOUP` if the framework can't update the stream.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemupdateopenedfileid-action-data API Reference}
+         *
+         * @example
+         * ```ts
+         * let fileId = await Neutralino.filesystem.openFile('./myFile.txt');
+         *
+         * let content = '';
+         * Neutralino.events.on('openedFile', (evt) => {
+         *   if(evt.detail.id == fileId) {
+         *     switch(evt.detail.action) {
+         *       case 'data':
+         *         content += evt.detail.data;
+         *         break;
+         *       case 'end':
+         *         console.log(content);
+         *         break;
+         *     }
+         *   }
+         * });
+         *
+         * // Sets the file stream cursor to 10th byte
+         * await Neutralino.filesystem.updateOpenedFile(fileId, 'seek', 10);
+         * // Reads 2 bytes from the cursor position
+         * await Neutralino.filesystem.updateOpenedFile(fileId, 'read', 2);
+         * // Reads the next bytes until the cursor reaches EOF (buffer size: 2)
+         * await Neutralino.filesystem.updateOpenedFile(fileId, 'readAll', 2);
+         * ```
+         */
+        function updateOpenedFile(
+            id: number,
+            action: 'read' | 'readAll' | 'seek',
+            data?: number,
+        ): Promise<BaseResponse>;
+
+        /**
+         * Returns file stream details.
+         * @param {number} id File stream identifier.
+         * @throws Throws `NE_FS_UNLTFOP` if the file stream identifier is not valid.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemgetopenedfileinfoid API Reference}
+         *
+         * @example
+         * ```ts
+         * let info = await Neutralino.filesystem.getOpenedFileInfo(0);
+         * console.log(info);
+         * ```
+         */
+        function getOpenedFileInfo(id: number): Promise<{
+            /** File stream identifier. */
+            id: number;
+            /** Becomes `true` if the stream reached EOF. */
+            eof: boolean;
+            /** File stream cursor position. */
+            pos: number;
+            /** Last read bytes. */
+            leastRead: number;
+        }>;
+
+        /**
+         * Removes given file.
+         * @param {string} filename Filename.
+         * @throws Throws `NE_FS_FILRMER` for file removal errors.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemremovefilefilename API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.removeFile('./myFile.txt');
+         * ```
+         */
         function removeFile(filename: string): Promise<BaseResponse>;
 
+        /**
+         * Reads directory contents.
+         * @param {string} path File/directory path.
+         * @throws Throws `NE_FS_NOPATHE` if the path doesn't exist.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemreaddirectorypath API Reference}
+         *
+         * @example
+         * ```ts
+         * let entries = await Neutralino.filesystem.readDirectory(NL_PATH);
+         * console.log('Content: ', entries);
+         * ```
+         */
         function readDirectory(path: string): Promise<
-            Array<{
+            {
                 /** File or directory name. */
                 entry: string;
 
                 type: 'FILE' | 'DIRECTORY';
-            }>
+            }[]
         >;
 
+        /**
+         * Copies a file to a new destination.
+         * @param {string} source Source path.
+         * @param {string} destination Destination path.
+         * @throws Throws `NE_FS_COPYFER` if the system cannot copy the file.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemcopyfilesource-destination API Reference}
+         *
+         * @example
+         * ``ts
+         * await Neutralino.filesystem.copyFile('./source.txt', './destination.txt');
+         * ```
+         */
         function copyFile(source: string, destination: string): Promise<BaseResponse>;
 
+        /**
+         * Moves a file to a new destination.
+         * @param {string} source Source path.
+         * @param {string} destination Destination path.
+         * @throws Throws `NE_FS_MOVEFER` if the system cannot move the file.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemmovefilesource-destination API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.filesystem.moveFile('./source.txt', './destination.txt');
+         * ```
+         */
         function moveFile(source: string, destination: string): Promise<BaseResponse>;
 
-        interface FileStats {
+        /**
+         * Returns file statistics for the given path.
+         * @param {string} path File or directory path.
+         * @throws Throws `NE_FS_NOPATHE` if the given path doesn't exist or is inaccessible.
+         *
+         * Because of the throw, this can be used to check the existence of a file or directory.
+         *
+         * {@link https://neutralino.js.org/docs/api/filesystem#filesystemgetstatspath API Reference}
+         *
+         * @example
+         * ```ts
+         * let stats = await Neutralino.filesystem.getStats('./sampleVideo.mp4');
+         * console.log('Stats:', stats);
+         * ```
+         */
+        function getStats(path: string): Promise<{
             /** Size in bytes. */
             size: number;
-
+            /** `true` if the path represents a normal file. */
             isFile: boolean;
-
+            /** `true` if the path represents a directory. */
             isDirectory: boolean;
-
+            /**
+             * On Windows: UNIX milliseconds of the file creation time.
+             *
+             * On Unix/Unix-like: Unix milliseconds of the last {@link https://en.wikipedia.org/wiki/Inode inode} modification time.
+             */
             createdAt?: number;
-
+            /** Unix milliseconds of the last file modification time. */
             modifiedAt?: number;
-        }
-
-        function getStats(path: string): Promise<FileStats>;
+        }>;
     }
 
     /**

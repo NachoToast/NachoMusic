@@ -942,7 +942,13 @@ declare namespace Neutralino {
      */
     function init(): void;
 
-    /** {@link https://neutralino.js.org/docs/api/os API Reference} */
+    /**
+     * Contains methods related to the user's operating system.
+     *
+     * {@link https://neutralino.js.org/docs/api/os API Reference}
+     *
+     * @version 3.8.0
+     */
     namespace os {
         /** {@link https://neutralino.js.org/docs/api/os/#spawnedprocess API Reference} */
         interface SpawnedProcess {
@@ -952,10 +958,10 @@ declare namespace Neutralino {
             pid: number;
         }
 
-        /** Detached for commenting and reusability. */
+        /** {@link https://neutralino.js.org/docs/api/os#options API Reference} */
         interface CommandOptions {
             /**
-             * If true will execute command in the background and resolve the promise immediately,
+             * If `true` will execute command in the background and resolve the promise immediately,
              * use this for making detached API function calls.
              */
             background?: boolean;
@@ -963,48 +969,251 @@ declare namespace Neutralino {
             /** Standard input as a string. */
             stdIn?: string;
         }
-        /** Executes a command and returns the output. */
+
+        /**
+         * Executes a command and returns the output.
+         * @param {string} command The command that is to be executed.
+         * @param {CommandOptions} [options] Additional execution options.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osexeccommandcommand-options API Reference}
+         *
+         * @example
+         * ```ts
+         * let info = await Neutralino.os.execCommand('python --version');
+         * console.log(`Your Python version: ${info.stdOut}`);
+         * ```
+         *
+         * @example
+         * ```ts
+         * await Neutralino.os.execCommand('npm start', { background: true });
+         * ```
+         */
         function execCommand(
             command: string,
             options?: CommandOptions,
-        ): Promise<{ exitCode: number; pid: number; stdErr: string; stdOut: string }>;
+        ): Promise<{
+            /** Exit code of the process. */
+            exitCode: number;
+            /** Process identifier. */
+            pid: number;
+            /** Standard error. */
+            stdErr: string;
+            /** Standard output. */
+            stdOut: string;
+        }>;
 
-        /** @deprecated Doesn't seem to exist. */
-        function spawnProcess(command: string): Promise<unknown>;
+        /**
+         * Spawns a process based on a command in background and lets developers control it.
+         * @param {string} command The command that is to be executed in a new process.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osspawnprocesscommand API Reference}
+         *
+         * @example
+         * ```ts
+         * let pingProc = await Neutralino.os.spawnProcess('ping neutralino.js.org');
+         *
+         * Neutralino.events.on('spawnedProcess', (evt) => {
+         *     if(pingProc.id == evt.detail.id) {
+         *         switch(evt.detail.action) {
+         *             case 'stdOut':
+         *                 console.log(evt.detail.data);
+         *                 break;
+         *             case 'stdErr':
+         *                 console.error(evt.detail.data);
+         *                 break;
+         *             case 'exit':
+         *                 console.log(`Ping process terminated with exit code: ${evt.detail.data}`);
+         *                 break;
+         *         }
+         *     }
+         * });
+         * ```
+         */
+        function spawnProcess(command: string): Promise<SpawnedProcess>;
 
-        /** @deprecated Doesn't seem to exist. */
+        /**
+         * Updates a spawned process based on a provided action and data.
+         * @param {number} id Neutralino-scoped process identifier.
+         * @param {'stdIn'|'stdInEnd'|'exit'} action Action to take, can be:
+         * - `stdIn` Sends data to the process via the standard input stream.
+         * - `stdInEnd` Closes the standard input stream file descriptor.
+         * - `exit` Terminates the process.
+         * @param {string} [data] Additional data for the `action`, should be a standard input string if `action` is
+         * `stdIn`.
+         * @throws Throws `NE_OS_UNLTOUP` if the process cannot be updated.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osupdatespawnedprocessid-action-data API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.os.updateSpawnedProcess(nodeProc.id, 'stdIn', 'console.log(5 + 5);');
+         * await Neutralino.os.updateSpawnedProcess(nodeProc.id, 'stdInEnd');
+         * ```
+         */
         function updateSpawnedProcess(
             id: number,
             action: 'stdIn' | 'stdInEnd' | 'exit',
-            data?: unknown,
+            data?: string,
         ): Promise<BaseResponse>;
 
-        /** @deprecated Doesn't seem to exist. */
-        function getSpawnedProcesses(): Promise<unknown[]>;
+        /**
+         * Returns all spawned processes.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osgetspawnedprocesses API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.os.spawnProcess('ping neutralino.js.org');
+         * await Neutralino.os.spawnProcess('ping codezri.org');
+         *
+         * let processes = await Neutralino.os.getSpawnedProcesses();
+         * console.log(processes);
+         * ```
+         */
+        function getSpawnedProcesses(): Promise<SpawnedProcess[]>;
 
+        /**
+         * Provides the value of a given environment variable.
+         * @param {string} key The name of the environment variable.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osgetenvkey API Reference}
+         *
+         * @example
+         * ```ts
+         * let value = await Neutralino.os.getEnv('USER');
+         * console.log(`USER = ${value}`);
+         * ```
+         */
         function getEnv(key: string): Promise<string>;
 
+        /**
+         * Returns all environment variables and their values.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osgetenvs API Reference}
+         *
+         * @example
+         * ```ts
+         * let envs = await Neutralino.os.getEnvs();
+         * console.log(envs);
+         * ```
+         */
+        function getEnvs(): Promise<Record<string, string>>;
+
+        /** {@link https://neutralino.js.org/docs/api/os#filter API Reference} */
         interface Filter {
+            /** Filter name. */
             name: string;
+            /** Array of file extensions, e.g. `['jpg', 'png']` */
             extensions: string[];
         }
 
+        /**
+         * Shows the file open dialog. You can use this function to obtain paths of existing files.
+         * @param {string} [title] Title of the dialog.
+         * @param {object} [options] Additional dialog options.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osshowopendialogtitle-options API Reference}
+         *
+         * @example
+         * ```ts
+         * let entries = await Neutralino.os.showOpenDialog('Open a file', {
+         * defaultPath: '/home/my/directory/',
+         * filters: [
+         *     {name: 'Images', extensions: ['jpg', 'png']},
+         *     {name: 'All files', extensions: ['*']}
+         * ]
+         * });
+         * console.log('You have selected:', entries);
+         * ```
+         */
         function showOpenDialog(
-            title: string,
-            options: { filters?: Filter[]; multiSelections?: boolean },
+            title?: string,
+            options?: {
+                /** Array of filter objects to filter the files list. */
+                filters?: Filter[];
+                /** Enables multi selections. */
+                multiSelections?: boolean;
+                /** Initial path/filename displayed by the dialog. */
+                defaultPath?: string;
+            },
         ): Promise<string[]>;
 
+        /**
+         * Shows the file save dialog. You can use this funciton to obtain a path to create a new file.
+         * @param {string} [title] Title of the dialog.
+         * @param {object} [options] Additional dialog options.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osshowsavedialogtitle-options API Reference}
+         *
+         * @example
+         * ```ts
+         * let entry = await Neutralino.os.showSaveDialog('Save as', {
+         *   defaultPath: 'untitled.jpg',
+         *   filters: [
+         *     {name: 'Images', extensions: ['jpg', 'png']},
+         *     {name: 'All files', extensions: ['*']}
+         *   ]
+         * });
+         * console.log('You have selected:', entry);
+         * ```
+         */
         function showSaveDialog(
-            title: string,
-            options?: { filters?: Filter[]; forceOverwrite?: boolean },
+            title?: string,
+            options?: {
+                /** Array of filter objects to filter the files list. */
+                filters?: Filter[];
+                /** Skip file overwrite warning message. */
+                forceOverwrite?: boolean;
+                /** Initial path/filename displayed by the dialog. */
+                defaultPath?: string;
+            },
         ): Promise<string[]>;
 
-        function showFolderDialog(title?: string): Promise<string>;
+        /**
+         * Shows the folder open dialog.
+         * @param {string} [title] Title of the dialog.
+         * @param {object} [options] Additional dialog options.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osshowfolderdialogtitle API Reference}
+         *
+         * @example
+         * ```ts
+         * let entry = await Neutralino.os.showFolderDialog('Select installation directory', {
+         *   defaultPath: '/home/my/directory/'
+         * });
+         * console.log('You have selected:', entry);
+         * ```
+         */
+        function showFolderDialog(
+            title?: string,
+            options?: {
+                /** Initial path displayed by the dialog. */
+                defaultPath?: string;
+            },
+        ): Promise<string>;
 
+        /**
+         * Displays a notification message.
+         * @param {string} title Notification title.
+         * @param {string} content Content of the notification.
+         * @param {'INFO'|'WARNING'|'ERROR'|'QUESTION'} [icon] Icon name, default is `INFO`.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osshownotificationtitle-content-icon API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.os.showNotification('Hello world', 'It works! Have a nice day');
+         * ```
+         *
+         * @example
+         * ```ts
+         * await Neutralino.os.showNotification('Oops :/', 'Something went wrong', 'ERROR');
+         * ```
+         */
         function showNotification(
             title: string,
             content: string,
-            icon?: 'INFO' | 'WARNING' | 'ERROR' | 'QUESTION',
+            icon: 'INFO' | 'WARNING' | 'ERROR' | 'QUESTION' = 'INFO',
         ): Promise<void>;
 
         interface MessageBoxChoices {
@@ -1016,6 +1225,28 @@ declare namespace Neutralino {
             ABORT_RETRY_IGNORE: 'ABORT' | 'RETRY' | 'IGNORE';
         }
 
+        /**
+         * Displays a message box.
+         * @param {string} title Title of the message box.
+         * @param {string} content Content of the message box.
+         * @param {string} [choice] Message box buttons, default is `OK`.
+         * @param {'INFO'|'WARNING'|'ERROR'|'QUESTION'} [icon] Icon name, default is `INFO`.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osshowmessageboxtitle-content-choice-icon API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.os.showMessageBox('Hello', 'Welcome');
+         *
+         * let button = await Neutralino.os
+         *             .showMessageBox('Confirm',
+         *                             'Are you sure you want to quit?',
+         *                             'YES_NO', 'QUESTION');
+         * if(button == 'YES') {
+         *     Neutralino.app.exit();
+         * }
+         * ```
+         */
         function showMessageBox<T extends keyof MessageBoxChoices = 'OK'>(
             title: string,
             content: string,
@@ -1023,17 +1254,61 @@ declare namespace Neutralino {
             icon?: 'INFO' | 'WARNING' | 'ERROR' | 'QUESTION',
         ): Promise<MessageBoxChoices[T]>;
 
+        /** {@link https://neutralino.js.org/docs/api/os#traymenuitem API Reference} */
         interface TrayMenuItem {
+            /** Unique identifier for each menu item. */
             id?: string;
+            /** Label of the menu item. Use `-` for a menu separator. */
             text: string;
+            /** Disable/enable a specific menu item. */
             isDisabled?: boolean;
+            /** Mark a specific menu item as selected. */
             isChecked?: boolean;
         }
 
-        /** Creates/updates the tray icon and menu. */
-        function setTray(tray: { icon: string; menuItems: TrayMenuItem[] }): Promise<void>;
+        /**
+         * Creates/updates the tray icon and menu.
+         * @param {object} tray Options for the tray.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#ossettrayoptions API Reference}
+         *
+         * @example
+         * ```ts
+         * let tray = {
+         *   icon: '/resources/icons/trayIcon.png',
+         *   menuItems: [
+         *     {id: "about", text: "About"},
+         *     {text: "-"},
+         *     {id: "quit", text: "Quit"}
+         *   ]
+         * };
+         *
+         * await Neutralino.os.setTray(tray);
+         * ```
+         */
+        function setTray(tray: {
+            /**
+             * Tray icon path, e.g. `/resources/icons/trayIcon.png`. A 20x20-sized PNG works fine on all supported
+             * operating systems.
+             */
+            icon: string;
+            /** An array of {@link TrayMenuItem} objects. */
+            menuItems: TrayMenuItem[];
+        }): Promise<BaseResponse>;
 
-        /** Returns known platform-specific folders such as Downloads, Music, Videos, etc. */
+        /**
+         * Returns known platform-specific folders such as Downloads, Music, Videos, etc...
+         * @param {string} title Name of the folder.
+         * @throws Throws `NE_OS_INVKNPT` for invalid folder names.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osgetpathname API Reference}
+         *
+         * @example
+         * ```ts
+         * let downloadsPath = await Neutralino.os.getPath('downloads');
+         * console.log(`Downloads folder: ${downloadsPath}`);
+         * ```
+         */
         function getPath(
             title:
                 | 'config'
@@ -1048,7 +1323,17 @@ declare namespace Neutralino {
                 | 'savedGames2',
         ): Promise<string>;
 
-        /** Opens a URL with the default web browser. */
+        /**
+         * Opens a URL with the default web browser.
+         * @param {string} url URL to be opened.
+         *
+         * {@link https://neutralino.js.org/docs/api/os#osopenurl API Reference}
+         *
+         * @example
+         * ```ts
+         * Neutralino.os.open('https://neutralino.js.org');
+         * ```
+         */
         function open(url: string): Promise<BaseResponse>;
     }
 

@@ -1393,12 +1393,69 @@ declare namespace Neutralino {
         function getKeys(): Promise<string[]>;
     }
 
-    /** {@link https://neutralino.js.org/docs/api/updater API Reference} */
+    /**
+     * Contains methods related to the built-in automatic updater.
+     *
+     * Neutralino offers a built-in client-based updating mechanism. Therefore you can update Neutralinojs apps without
+     * even calling third-party services, operating system level services, or other binaries/scripts.
+     *
+     * {@link https://neutralino.js.org/docs/how-to/auto-updater/ Guide}
+     *
+     * {@link https://neutralino.js.org/docs/api/updater API Reference}
+     */
     namespace updater {
-        // TODO: manifset shape interface
-        function checkForUpdates(url: string): Promise<object>;
+        /** {@link https://neutralino.js.org/docs/how-to/auto-updater/#creating-the-update-manifest API Reference} */
+        interface Manifest {
+            /** Application identifier, must be same used in config file. */
+            applicationId: string;
+            /** Application version. */
+            version: string;
+            /**
+             * A link to download `resources.neu`, can be any file name as long as it has the
+             * `Content-Type: application/octet-stream` header.
+             */
+            resourcesURL: string;
+            /** Additional data about the update, accepts any JSON value. */
+            data?: object;
+        }
 
-        function install(): Promise<void>;
+        /**
+         * Checks latest updates from the given URL. The URL should return a valid Neutralinojs update manifest with
+         * `Content-Type: application/json` header.
+         * @param {string} url URL to fetch update manifest.
+         * @throws Throws `NE_UP_CUPDMER` for invalid manifests and `NE_UP_CUPDERR` for network connectivity issues.
+         *
+         * {@link https://neutralino.js.org/docs/api/updater#updatercheckforupdatesurl API Reference}
+         *
+         * @example
+         * ```ts
+         * let url = 'https://example.com/updates/manifest.json';
+         * let manifest = await Neutralino.updater.checkForUpdates(url);
+         * ```
+         */
+        function checkForUpdates(url: string): Promise<Manifest>;
+
+        /**
+         * Installs updates from the downloaded update manifest.
+         * @throws Throws `NE_UP_UPDNOUF` if the manifest isn't loaded, and `NE_UP_UPDINER` if the update installation
+         * process fails.
+         *
+         * {@link https://neutralino.js.org/docs/api/updater#updaterinstall API Reference}
+         *
+         * @example
+         * ```ts
+         * let url = 'https://example.com/updates/manifest.json';
+         * let manifest = await Neutralino.updater.checkForUpdates(url);
+         *
+         * if(manifest.version != NL_APPVERSION) {
+         *     await Neutralino.updater.install();
+         * }
+         * else {
+         *     console.log('You are using the latest version!');
+         * }
+         * ```
+         */
+        function install(): Promise<BaseResponse>;
     }
 
     /** {@link https://neutralino.js.org/docs/api/window API Reference} */

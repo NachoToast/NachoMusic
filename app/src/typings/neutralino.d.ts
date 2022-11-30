@@ -1402,6 +1402,8 @@ declare namespace Neutralino {
      * {@link https://neutralino.js.org/docs/how-to/auto-updater/ Guide}
      *
      * {@link https://neutralino.js.org/docs/api/updater API Reference}
+     *
+     * @version 3.8.0
      */
     namespace updater {
         /** {@link https://neutralino.js.org/docs/how-to/auto-updater/#creating-the-update-manifest API Reference} */
@@ -1458,65 +1460,262 @@ declare namespace Neutralino {
         function install(): Promise<BaseResponse>;
     }
 
-    /** {@link https://neutralino.js.org/docs/api/window API Reference} */
+    /**
+     * Contains methods related to the current native window instance. Only works for the `window` mode.
+     *
+     * {@link https://neutralino.js.org/docs/api/window API Reference}
+     *
+     * @version 3.8.0
+     */
     namespace window {
-        function setTitle(title: string): Promise<BaseResponse>;
+        /**
+         * Sets the title of the native window.
+         * @param {string} [title] Title of the window, leave blank to clear the existing title.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowsettitletitle API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setTitle('New title');
+         * ```
+         */
+        function setTitle(title?: string): Promise<BaseResponse>;
 
+        /**
+         * Returns the title of the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowgettitle API Reference}
+         *
+         * @example
+         * ```ts
+         * let title = await Neutralino.window.getTitle();
+         * console.log(`title = ${title}`);
+         * ```
+         */
         function getTitle(): Promise<string>;
 
+        /**
+         * Minimizes the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowminimize API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.minimize();
+         * ```
+         */
         function minimize(): Promise<BaseResponse>;
+
+        /**
+         * Maximizes the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowmaximize API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.maximize();
+         * ```
+         */
         function maximize(): Promise<BaseResponse>;
+
+        /**
+         * Restores the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowunmaximize API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.unmaximize();
+         * ```
+         */
         function unmaximize(): Promise<BaseResponse>;
+
+        /**
+         * Returns `true` if the native window is maximized.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowismaximized API Reference}
+         *
+         * @example
+         * ```ts
+         * let status = await Neutralino.window.isMaximized();
+         * ```
+         */
         function isMaximized(): Promise<boolean>;
 
+        /**
+         * Enables the full screen mode.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowsetfullscreen API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setFullScreen();
+         * ```
+         */
         function setFullScreen(): Promise<BaseResponse>;
+
+        /**
+         * Exits from the full screen mode.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowexitfullscreen API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.exitFullScreen();
+         * ```
+         */
         function exitFullScreen(): Promise<BaseResponse>;
+
+        /**
+         * Returns `true` if the native window is in the full screen mode.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowisfullscreen API Reference}
+         *
+         * @example
+         * ```ts
+         * let status = await Neutralino.window.isFullScreen();
+         * ```
+         */
         function isFullScreen(): Promise<boolean>;
 
+        /**
+         * Shows the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowshow API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.show();
+         * ```
+         */
         function show(): Promise<BaseResponse>;
+
+        /**
+         * Hides the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowhide API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.hide();
+         * ```
+         */
         function hide(): Promise<BaseResponse>;
+
+        /**
+         * Returns `true` if the native window is visible.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowisvisible API Reference}
+         *
+         * @example
+         * ```ts
+         * let status = await Neutralino.window.isVisible();
+         * ```
+         */
         function isVisible(): Promise<boolean>;
 
+        /**
+         * Focuses the native window.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowfocus API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.focus();
+         * ```
+         */
         function focus(): Promise<BaseResponse>;
 
-        function setAlwaysOnTop(onTop: boolean): Promise<BaseResponse>;
+        /**
+         * Activates or deactivates the always on top mode.
+         * @param {boolean} [onTop] Whether the on top mode should be activated or not, default is `true`.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowsetalwaysontopontop API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setAlwaysOnTop(true); // or setAlwaysOnTop();
+         * ```
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setAlwaysOnTop(false);
+         * ```
+         */
+        function setAlwaysOnTop(onTop: boolean = true): Promise<BaseResponse>;
 
         /**
          * Moves the native window into given coordinates.
          *
-         * Neutralinojs's cross-platform coordinate system starts from top-left corner of the screen.
+         * Neutralinojs' cross-platform coordinate system starts from the top-left corner of the screen.
          *
-         * In other words, `x=0,y=0` point refers to the top-left corner of the device's main screen.
+         * @param {number} x Integer value for the horizontal position.
+         * @param {number} y Integer value for the vertical position.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowmovex-y API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.move(200, 400);
+         * ```
          */
         function move(x: number, y: number): Promise<BaseResponse>;
 
         /**
          * Sets an icon for the native window or Dock.
-         * @param {String} icon Path of the icon, e.g. `/resources/icons/appIcon.png`.
+         * @param {string} icon Path of the icon. A 200x200 PNG image works fine on all supported operating systems.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowseticonicon API Reference}
+         *
+         * @example
+         * ```ts
+         * const icon = '/resources/icons/appIcon.png';
+         * await Neutralino.window.setIcon(icon);
+         * ```
          */
         function setIcon(icon: string): Promise<BaseResponse>;
 
         /**
-         * Converts a given DOM element to a draggable region.
+         * Converts a given DOM element to a draggable region. The user will be able to drag the native window by
+         * dragging the given DOM element.
          *
-         * The user will be able to drag the native window by dragging the given DOM element.
+         * This feature is suitable to make custom window bars along with the {@link https://neutralino.js.org/docs/configuration/neutralino.config.json#modeswindowborderless-boolean borderless mode}.
+         * @param {string | HTMLElement} domId A DOM element identifier.
          *
-         * Suitable to make custom window bars along with the borderless mode.
+         * {@link https://neutralino.js.org/docs/api/window#windowsetdraggableregiondomid API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setDraggableRegion('myCustomTitleBar');
+         * ```
          */
-        function setDraggableRegion(domId: string): Promise<BaseResponse>;
+        function setDraggableRegion(domId: string | HTMLElement): Promise<BaseResponse>;
 
-        function unsetDraggableRegion(domId: string): Promise<BaseResponse>;
+        /**
+         * Converts a draggable region to a normal DOM element by removing the drag event handlers.
+         * @param {string | HTMLElement} domId A DOM element identifier.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowunsetdraggableregiondomid API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.unsetDraggableRegion('myCustomTitleBar');
+         * ```
+         */
+        function unsetDraggableRegion(domId: string | HTMLElement): Promise<BaseResponse>;
 
-        interface InputSizeInfo {
-            width?: number;
-            height?: number;
-            minWidth?: number;
-            minHeight?: number;
-            maxWidth?: number;
-            maxHeight?: number;
-            resizable?: boolean;
-        }
+        /**
+         * All values are in pixels.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#options API Reference}
+         */
+        type InputSizeInfo = Partial<OutputSizeInfo>;
 
+        /**
+         * All values are in pixels.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#return-boolean-awaited-3 API Reference}
+         */
         interface OutputSizeInfo {
             width: number;
             height: number;
@@ -1527,15 +1726,67 @@ declare namespace Neutralino {
             resizable: boolean;
         }
 
-        /** Always expects width and height couples,
-         * so make sure if you are setting a width value you also set the height one.
+        /**
+         * Sets the size of the window.
+         * @param {InputSizeInfo} options Size parameters.
+         *
+         * Always expects with and height couples (e.g. if setting `minWidth`, also set `minHeight`).
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowsetsizeoptions API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setSize({
+         *     width: 500,
+         *     height: 200,
+         *     maxWidth: 600,
+         *     maxHeight: 400
+         * });
+         * ```
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.setSize({
+         *     resizable: false
+         * });
+         * ```
          */
         function setSize(options: InputSizeInfo): Promise<BaseResponse>;
 
+        /**
+         * Returns window size information.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowgetsize API Reference}
+         *
+         * @example
+         * ```ts
+         * let sizeInfo = await Neutralino.window.getSize();
+         *
+         * console.log(sizeInfo);
+         * ```
+         */
         function getSize(): Promise<OutputSizeInfo>;
 
-        function getPosition(): Promise<{ x: number; y: number }>;
+        /**
+         * Returns window position coordinates.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowgetposition API Reference}
+         *
+         * @example
+         * ```ts
+         * let position = await Neutralino.window.getPosition();
+         *
+         * console.log(position);
+         * ```
+         */
+        function getPosition(): Promise<{
+            /** Horizontal coordinate of the left edge of the window. */
+            x: number;
+            /** Vertical coordinate of the top edge of the window. */
+            y: number;
+        }>;
 
+        /** {@link https://neutralino.js.org/docs/api/window#windowoptions API Reference} */
         interface WindowOptions {
             title?: string;
             icon?: string;
@@ -1550,9 +1801,45 @@ declare namespace Neutralino {
             processArgs?: string;
         }
 
+        /**
+         * Creates a native window. You can use this method to create a new window for your multi-window Neutralinojs
+         * app.
+         *
+         * Neutralinojs spawns a new process for each window. Therefore, the new window works as an isolated app once
+         * the window is created.
+         *
+         * However, you can build communication streams between windows with the {@link https://neutralino.js.org/docs/api/storage storage API}.
+         * @param {string} url URL to be loaded, e.g. `/resources/aboutWindow.html`. Supports loading both local and
+         * remote app resources, local resource paths need to begin with `/`.
+         * @param {WindowOptions} [windowOptions] Additional window options.
+         *
+         * {@link https://neutralino.js.org/docs/api/window#windowcreateurl-windowoptions API Reference}
+         *
+         * @example
+         * ```ts
+         * await Neutralino.window.create('/resources/aboutWindow.html', {
+         *     icon: '/resources/icons/aboutIcon.png',
+         *     enableInspector: false,
+         *     width: 500,
+         *     height: 300,
+         *     maximizable: false,
+         *     exitProcessOnClose: true,
+         *     processArgs: '--window-id=W_ABOUT'
+         * });
+         * ```
+         */
         function create(
             url: string,
             windowOptions?: WindowOptions,
-        ): Promise<{ pid: number; stdOut: string; stdErr: string; exitCode: number }>;
+        ): Promise<{
+            /** Process identifier. */
+            pid: number;
+            /** Standard output, always empty since new window process starts asynchronously. */
+            stdOut: string;
+            /** Standard error, always empty since new window process starts asynchronously. */
+            stdErr: string;
+            /** Exit code of the process. */
+            exitCode: number;
+        }>;
     }
 }

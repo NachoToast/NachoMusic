@@ -10,5 +10,6 @@ yarn.lock
 # user-generated
 .vscode/
 .tmp/
+.storage/
 dist/
 *.log

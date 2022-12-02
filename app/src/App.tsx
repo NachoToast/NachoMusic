@@ -1,20 +1,29 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import CssBaseline from '@mui/material/CssBaseline';
+import ThemeProvider from '@mui/material/styles/ThemeProvider';
+
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
+import theme from './theme';
+import Sidebar from './components/Sidebar/Sidebar';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.tsx</code> and save to reload.
-                </p>
-                <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-                    Learn React
-                </a>
-            </header>
-        </div>
+        <BrowserRouter>
+            <ThemeProvider theme={theme}>
+                <CssBaseline enableColorScheme />
+                <Sidebar />
+                <div id="content">
+                    <Routes>
+                        <Route index element={<span>rest of app</span>} />
+                    </Routes>
+                </div>
+            </ThemeProvider>
+        </BrowserRouter>
     );
 }
 

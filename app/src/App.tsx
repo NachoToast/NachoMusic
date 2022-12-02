@@ -21,6 +21,7 @@ function App() {
                 <div id="content">
                     <Routes>
                         <Route index element={<HomePage />} />
+                        <Route path="home" element={<HomePage />} />
                     </Routes>
                 </div>
             </ThemeProvider>

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Card, CardActionArea, Fade, Grid, Slide, Typography } from '@mui/material';
+import ExternalLink from '../Links/ExternalLink';
 import './HomePage.css';
 
 import GitHubIcon from '@mui/icons-material/GitHub';
-import ExternalLink from '../Links/ExternalLink';
+import SettingsIcon from '@mui/icons-material/Settings';
+import UnstyledLink from '../Links/UnstyledLink';
 
 const HomePage = () => {
     const [shouldFadeIn, setShouldFadeIn] = useState(false);
@@ -50,6 +52,15 @@ const HomePage = () => {
                                 <GitHubIcon style={{ fontSize: '60' }} />
                             </CardActionArea>
                         </ExternalLink>
+                    </Card>
+                </Grid>
+                <Grid item>
+                    <Card>
+                        <UnstyledLink to="/home/settings">
+                            <CardActionArea sx={{ p: 1 }}>
+                                <SettingsIcon style={{ fontSize: '60' }} />
+                            </CardActionArea>
+                        </UnstyledLink>
                     </Card>
                 </Grid>
             </Grid>

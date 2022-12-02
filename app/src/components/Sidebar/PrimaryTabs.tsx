@@ -6,7 +6,8 @@ import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 
 const PrimaryTabs: Omit<SidebarPrimaryTabProps, 'isMaximised'>[] = [
     {
-        href: '/',
+        href: '/home',
+        secondaryHref: '/',
         name: 'Home',
         icon: <HomeIcon />,
     },

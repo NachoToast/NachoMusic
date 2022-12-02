@@ -6,6 +6,8 @@ import UnstyledLink from '../Links/UnstyledLink';
 export interface SidebarPrimaryTabProps {
     /** Where to go if clicked, e.e. `/search`. */
     href: string;
+    /** Another href that goes to this page. */
+    secondaryHref?: string;
     /** Name in the sidebar, e.g. `Library`. */
     name: string;
     /** MUI icon to show next to name. */
@@ -15,11 +17,14 @@ export interface SidebarPrimaryTabProps {
 }
 
 const SidebarPrimaryTab = (props: SidebarPrimaryTabProps) => {
-    const { href, name, icon, isMaximised } = props;
+    const { href, secondaryHref, name, icon, isMaximised } = props;
 
     const location = useLocation();
 
-    const selected = useMemo(() => location.pathname === href, [href, location.pathname]);
+    const selected = useMemo(
+        () => location.pathname.startsWith(href) || location.pathname === secondaryHref,
+        [href, location.pathname, secondaryHref],
+    );
 
     return (
         <ListItem disablePadding>

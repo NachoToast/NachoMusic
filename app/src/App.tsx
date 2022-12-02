@@ -10,6 +10,7 @@ import '@fontsource/roboto/700.css';
 import theme from './theme';
 import Sidebar from './components/Sidebar/Sidebar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomePage from './components/HomePage/HomePage';
 
 function App() {
     return (
@@ -19,7 +20,7 @@ function App() {
                 <Sidebar />
                 <div id="content">
                     <Routes>
-                        <Route index element={<span>rest of app</span>} />
+                        <Route index element={<HomePage />} />
                     </Routes>
                 </div>
             </ThemeProvider>

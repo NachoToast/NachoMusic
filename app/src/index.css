@@ -15,4 +15,6 @@ div#content {
     flex-grow: 1;
     display: flex;
     flex-flow: column nowrap;
+    align-items: center;
+    height: 100%;
 }

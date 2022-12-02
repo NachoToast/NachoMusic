@@ -1,0 +1,13 @@
+.rotatingMusicNote {
+    animation: rotate 400ms linear;
+    animation-delay: 500ms;
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

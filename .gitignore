@@ -8,7 +8,6 @@ yarn.lock
 .npm*
 
 # user-generated
-.vscode/
 .tmp/
 .storage/
 dist/

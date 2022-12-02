@@ -8,6 +8,8 @@
     },
     "devDependencies": {
         "@types/node": "^18.11.9",
+        "@types/uuid": "^9.0.0",
+        "@types/websocket": "^1.0.5",
         "@typescript-eslint/eslint-plugin": "^5.45.0",
         "@typescript-eslint/parser": "^5.45.0",
         "eslint": "^8.28.0",

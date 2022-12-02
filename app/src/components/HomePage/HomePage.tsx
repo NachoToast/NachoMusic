@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { Fade, Slide, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { Card, CardActionArea, Fade, Grid, Slide, Typography } from '@mui/material';
 import './HomePage.css';
+
+import GitHubIcon from '@mui/icons-material/GitHub';
+import ExternalLink from '../Links/ExternalLink';
 
 const HomePage = () => {
     const [shouldFadeIn, setShouldFadeIn] = useState(false);
@@ -39,6 +42,17 @@ const HomePage = () => {
                     </Typography>
                 </Slide>
             </Typography>
+            <Grid container spacing={1} sx={{ width: '95%', flexGrow: 1 }} alignItems="center" justifyContent="center">
+                <Grid item>
+                    <Card>
+                        <ExternalLink href="https://github.com/NachoToast/NachoMusic">
+                            <CardActionArea sx={{ p: 1 }}>
+                                <GitHubIcon style={{ fontSize: '60' }} />
+                            </CardActionArea>
+                        </ExternalLink>
+                    </Card>
+                </Grid>
+            </Grid>
         </>
     );
 };

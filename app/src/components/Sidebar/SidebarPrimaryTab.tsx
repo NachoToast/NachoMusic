@@ -1,5 +1,5 @@
 import React, { ReactNode, useMemo } from 'react';
-import { Collapse, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Collapse, ListItem, ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 import UnstyledLink from '../Links/UnstyledLink';
 
@@ -24,13 +24,15 @@ const SidebarPrimaryTab = (props: SidebarPrimaryTabProps) => {
     return (
         <ListItem disablePadding>
             <UnstyledLink to={href} replace={true}>
-                <ListItemButton selected={selected}>
-                    <ListItemIcon sx={{ minWidth: 0 }}>{icon}</ListItemIcon>
+                <Tooltip placement="right" title={isMaximised ? undefined : name} arrow>
+                    <ListItemButton selected={selected}>
+                        <ListItemIcon sx={{ minWidth: 0 }}>{icon}</ListItemIcon>
 
-                    <Collapse orientation="horizontal" in={isMaximised}>
-                        <ListItemText sx={{ ml: 1 }} primary={name} />
-                    </Collapse>
-                </ListItemButton>
+                        <Collapse orientation="horizontal" in={isMaximised}>
+                            <ListItemText sx={{ ml: 1 }} primary={name} />
+                        </Collapse>
+                    </ListItemButton>
+                </Tooltip>
             </UnstyledLink>
         </ListItem>
     );

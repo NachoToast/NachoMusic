@@ -72,7 +72,7 @@ For an ideal app development experience, use 1 terminal for the app dev script (
 
 You can reload the app manually using `CTRL + R` or `F5` (or their Mac equivalents).
 
-For extension development, reloading the app isn't feasible since extensions rely on a websocket connection to it, so it's recommended to use testing suites.
+For extension development, reloading the app isn't feasible since extensions rely on a websocket connection to it, so it's recommended to use testing suites. You can do hot-compiling of extensions using `pnpm start` in the `extensions/` directory however.
 
 # Project Structure
 

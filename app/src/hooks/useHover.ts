@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 /** Modified from {@link https://usehooks.com/useHover/ useHooks.com} */
-export default function useHover(): [React.RefObject<HTMLElement>, boolean] {
+export default function useHover(): [React.RefObject<HTMLDivElement>, boolean] {
     const [isHovered, setIsHovered] = useState(false);
 
-    const hoverRef = useRef<HTMLElement>(null);
+    const hoverRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const node = hoverRef.current;

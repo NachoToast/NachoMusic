@@ -14,7 +14,7 @@ const ExternalLink = (props: ExternalLinkProps) => {
             href={href}
             rel="noreferrer"
             target={target ?? '_blank'}
-            style={{ color: 'inherit', textDecoration: 'inherit', width: '100%' }}
+            style={{ color: 'inherit', textDecoration: 'inherit' }}
             onClick={(e) => {
                 e.preventDefault();
                 Neutralino.os.open(href);

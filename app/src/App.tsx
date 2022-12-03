@@ -11,6 +11,7 @@ import theme from './theme';
 import Sidebar from './components/Sidebar/Sidebar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage/HomePage';
+import SearchPage from './components/SearchPage/SearchPage';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                     <Routes>
                         <Route index element={<HomePage />} />
                         <Route path="home" element={<HomePage />} />
+                        <Route path="search" element={<SearchPage />} />
                     </Routes>
                 </div>
             </ThemeProvider>

@@ -1,4 +1,7 @@
+/** A search request for YouTube videos. */
 export interface SearchRequest {
+    /** Whether the user wants actual video results, or just autocomplete suggestions for their search. */
+    final: boolean;
     queryString: string;
     limit: number;
 }

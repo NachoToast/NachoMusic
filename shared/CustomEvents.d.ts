@@ -8,6 +8,7 @@ export interface CustomEvents {
 
     // youtube search
     youtubeSearchQuery: SearchRequest;
+    youtubeSearchAutocompleteSuggestions: string[];
     youtubeSearchResult: SearchResponse;
 
     // file server

@@ -6,13 +6,18 @@ import './HomePage.css';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import SettingsIcon from '@mui/icons-material/Settings';
 import UnstyledLink from '../Links/UnstyledLink';
+import { colors } from '../../constants/constants';
 
 const HomePage = () => {
+    const [skipFade] = useState(!!sessionStorage.getItem('homePageAnimated'));
+
     const [shouldFadeIn, setShouldFadeIn] = useState(false);
     const [shouldFadeIn2, setShouldFadeIn2] = useState(false);
     const [shouldFadeIn3, setShouldFadeIn3] = useState(false);
 
     useEffect(() => {
+        sessionStorage.setItem('homePageAnimated', 'yep');
+
         const timeout = setTimeout(() => setShouldFadeIn(true), 200);
 
         const timeout2 = setTimeout(() => setShouldFadeIn2(true), 400);
@@ -29,16 +34,16 @@ const HomePage = () => {
     return (
         <>
             <Typography variant="h2" sx={{ display: 'flex', flexFlow: 'row nowrap', position: 'relative' }}>
-                <Fade in timeout={1000}>
+                <Fade in timeout={skipFade ? 0 : 1000}>
                     <span>Nacho</span>
                 </Fade>
-                <Fade in={shouldFadeIn} timeout={1000}>
-                    <span style={{ color: '#745bc2' }}>Music</span>
+                <Fade in={shouldFadeIn || skipFade} timeout={skipFade ? 0 : 1000}>
+                    <span style={{ color: colors.purple }}>Music</span>
                 </Fade>
-                <Fade in={shouldFadeIn2} timeout={1000}>
-                    <div className={shouldFadeIn2 ? 'rotatingMusicNote' : undefined}>🎵</div>
+                <Fade in={shouldFadeIn2 || skipFade} timeout={skipFade ? 0 : 1000}>
+                    <div className={shouldFadeIn2 && !skipFade ? 'rotatingMusicNote' : undefined}>🎵</div>
                 </Fade>
-                <Slide direction="down" in={shouldFadeIn3}>
+                <Slide direction="down" in={shouldFadeIn3 || skipFade} timeout={skipFade ? 0 : undefined}>
                     <Typography color="gray" sx={{ position: 'absolute', right: 0, top: '100%' }}>
                         {NL_APPVERSION}
                     </Typography>

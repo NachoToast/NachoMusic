@@ -8,4 +8,4 @@
 
 ## Reporting a Vulnerability
 
-You can make a GitHub issue, or reach out any way you like. Update should be given within a few days.
+You can make a GitHub issue, or reach out any way you like. Updates should be given within a few days.
